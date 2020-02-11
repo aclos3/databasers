@@ -11,13 +11,10 @@
 <div class="nav" id="homenav">
   <a href="index.html">Home</a>
   <a href="customers.html" class="active">Customers</a>
-  <a href="employees.html" class="active">Employees</a>
-  <a href="sales.html" class="active">All Sales</a>
-  <a href="#viewSales">View Sales</a>
-  <a href="#addSale">Add Sale</a>
-  <a href="products.html" class="active">Products</a>
-  <a href="#viewProducts">View Products</a>
-  <a href="manager.html" class="active">Manager</a>
+  <a href="employees.html">Employees</a>
+  <a href="sales.html">Sales</a>
+  <a href="products.html">Products</a>
+  <a href="manager.html">Manager</a>
   <a href="javascript:void(0);" class="icon" onclick="navClick()">
     <i class="fa fa-bars"></i>
   </a>
@@ -25,12 +22,12 @@
 
 <div style="padding-left:16px">
   <h2>Tropical Fish Emporium</h2>
-  <p>Here customers are added to the database.</p>
+  <p>Search for and delete customers here.</p>
 
   <form method = "post">
     <fieldset>
 
-      <legend>Add Customer Here:</legend>
+      <legend>Search for a Customer:</legend>
   			<label>First Name:
           <input type ="text" name ="firstName">
         </label>
@@ -43,15 +40,39 @@
           <input type ="text" name ="email">
         </label>
   			<br/><br/>
-  			<label>Member Since:
-          <input type ="date" name ="memberSince">
-  			<br/><br/>
-
-  			<input type="submit" value="Submit">
-  	</fieldset>
-  		<p><button type="deleteEmployee">Delete Current Customer Account</button></p>
+        <button onclick="showResults();return false;">Submit</button>
+        <span class="instr"><--Click me to see some sample data.</span>
+    </fieldset>
+    <div id="results">
+      <table>
+        <tr>
+          <th>select</th>
+          <th class="pk">customerId</th>
+          <th>email</th>
+          <th>memberSince</th>
+          <th>firstName</th>
+          <th>lastName</th>
+        </tr>
+        <tr>
+          <th><input type="checkbox" name="check1"></th>
+          <td>346</td>
+          <td>name@name.com</td>
+          <td>3/15/2002</td>
+          <td>Bob</td>
+          <td>Saget</td>
+        </tr>
+        <tr>
+          <th><input type="checkbox" name="check2"></th>
+          <td>211</td>
+          <td>name2@name.com</td>
+          <td>2/29/2013</td>
+          <td>Lucy</td>
+          <td>Smith</td>
+        </tr>
+      </table>
+      <p><button type="delete">Delete Customer</button></p>
+    </div>  
   </form>
-
 </div>
 
 <script src="proj3.js"></script>

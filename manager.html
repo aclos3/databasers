@@ -10,13 +10,10 @@
 
 <div class="nav" id="homenav">
   <a href="index.html">Home</a>
-  <a href="customers.html" class="active">Customers</a>
-  <a href="employees.html" class="active">Employees</a>
-  <a href="sales.html" class="active">All Sales</a>
-  <a href="#viewSales">View Sales</a>
-  <a href="#addSale">Add Sale</a>
-  <a href="products.html" class="active">Products</a>
-  <a href="#viewProducts">View Products</a>
+  <a href="customers.html">Customers</a>
+  <a href="employees.html">Employees</a>
+  <a href="sales.html">Sales</a>
+  <a href="products.html">Products</a>
   <a href="manager.html" class="active">Manager</a>
   <a href="javascript:void(0);" class="icon" onclick="navClick()">
     <i class="fa fa-bars"></i>
@@ -29,7 +26,7 @@
 
   <form method = "post">
     <fieldset>
-
+    <!--CUSTOMERS-->
       <legend>Add Customer Here:</legend>
         <label>First Name:
           <input type ="text" name ="firstName">
@@ -47,7 +44,9 @@
           <input type ="date" name ="memberSince">
         <br/><br/>
       <input type="submit" value="Submit">
-
+        </fieldset>
+        <!--EMPLOYEES-->
+        <fieldset>
       <legend>Add Employee Here:</legend>
   			<label>First Name:
           <input type ="text" name ="firstName">
@@ -73,45 +72,22 @@
   				<select name = "partTime">
   					<option value = "TRUE" selected> Yes</option>
   					<option value = "FALSE" selected> No</option>
-  				</select>
+          </select>
   			<label>Store Location: </label>
   				<select name = "classDropDown">
   					<option value = "Bend" selected>Bend, OR</option>
   					<option value = "Portland" selected>Portland, OR</option>
   					<option value = "Vancouver" selected>Vancouver, WA</option>
   			   </select>
-  		<input type="submit" value="Submit">
-
-      <legend>Add Sale Here:</legend>
-        <label>Sale ID:
-          <input type ="id" name ="saleID">
-        </label>
-        <br/><br/>
-        <label>Employee ID (who comlpeted the sale):
-          <input type ="id" name ="employeeID">
-        </label>
-        <br/><br/>
-        <label>Customer ID (who puchased the product):
-          <input type ="id" name ="customerID">
-        </label>
-        <br/><br/>
-        <label>Transaction Date:
-          <input type ="date" name ="transactionDate">
-        </label>
-        <br/><br/>
-        <label>Purchase Total (including tax):
-          <input type ="price" name ="totalPurchase">
-        </label>
-        <br/><br/>
-        <label>Store Location: </label>
-          <select name = "classDropDown">
-            <option value = "Bend" selected>Bend, OR</option>
-            <option value = "Portland" selected>Portland, OR</option>
-            <option value = "Vancouver" selected>Vancouver, WA</option>
-          </select>
       <input type="submit" value="Submit">
-
+      </fieldset>
+    </fieldset>
+    <!--Products-->
+    <fieldset>
       <legend>Add Product Here:</legend>
+        <p>Adding a product will add a product record to the database, and will also add a row to the intersection table
+          "products_sales." The primary key of the product record will be a <strong>foreign key</strong> in the product_sales table.
+        </p>
         <label>Product Name:
           <input type ="text" name ="name">
         </label>
@@ -129,13 +105,48 @@
         </label>
         <br/><br/>
         <input type="submit" value="Submit">
-
-  	</fieldset>
-  		<p><button type="deleteEmployee">Delete Current Employee</button></p>
+    </fieldset>
+    
+      <!--SALES-->
+    <fieldset>
+      <legend>Add Sale Here:</legend>
+      <p>Adding a sale will add a sale record to the database, and will also add a row to the intersection table
+        "products_sales." The primary key of the sale record will be a <strong>foreign key</strong> in the product_sales table.
+      </p>
+        <label>Sale ID:
+          <input type ="id" name ="saleID">
+        </label>
+        
+        <br/><br/>
+        <label>Employee ID (who comlpeted the sale):
+          <input type ="id" name ="employeeID">
+        </label>
+        <br/><br/>
+        <label>Customer ID (optional):
+          <input type ="id" name ="customerID">
+        </label>
+        <strong>customer ID is optionally related to a sale since not every transaction will be made by a customer with a profile.</strong>
+        <br/><br/>
+        <label>Transaction Date:
+          <input type ="date" name ="transactionDate">
+        </label>
+        <br/><br/>
+        <label>Purchase Total (including tax):
+          <input type ="price" name ="totalPurchase">
+        </label>
+        <br/><br/>
+        <label>Store Location: </label>
+          <select name = "classDropDown">
+            <option value = "Bend" selected>Bend, OR</option>
+            <option value = "Portland" selected>Portland, OR</option>
+            <option value = "Vancouver" selected>Vancouver, WA</option>
+          </select>
+      <input type="submit" value="Submit">
+    </fieldset>
   </form>
 
 </div>
-
+<footer>(c)Tropical Fish Emporium</footer>
 <script src="proj3.js"></script>
 
 </body>
