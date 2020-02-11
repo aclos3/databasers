@@ -25,64 +25,69 @@
   <p>Here customers, employees, sales, and products can be added to the database.</p>
 
   <form method = "post">
+
+<!--CUSTOMERS-->
     <fieldset>
-    <!--CUSTOMERS-->
       <legend>Add Customer Here:</legend>
         <label>First Name:
           <input type ="text" name ="firstName">
         </label>
-        <br/><br/>
+        <br><br>
         <label>Last Name:
           <input type ="text" name ="lastName">
         </label>
-        <br/><br/>
+        <br><br>
         <label>E-mail Address:
           <input type ="text" name ="email">
         </label>
-        <br/><br/>
+        <br><br>
         <label>Member Since:
           <input type ="date" name ="memberSince">
-        <br/><br/>
+        <br><br>
       <input type="submit" value="Submit">
-        </fieldset>
-        <!--EMPLOYEES-->
-        <fieldset>
+    </fieldset>
+
+<!--EMPLOYEES-->
+    <fieldset>
       <legend>Add Employee Here:</legend>
   			<label>First Name:
           <input type ="text" name ="firstName">
         </label>
-        <br/><br/>
+        <br><br>
   			<label>Last Name:
           <input type ="text" name ="lastName">
         </label>
-        <br/><br/>
+        <br><br>
   			<label>Shift Start-Time:
           <input type ="time" name ="startTime">
         </label>
-  			<br/><br/>
+  			<br><br>
   			<label>Shift End-Time:
           <input type ="time" name ="endTime">
         </label>
-  			<br/><br/>
+  			<br><br>
   			<label>Hourly Rate:
           <input type ="number" name ="hourlyRate">
         </label>
-  			<br/><br/>
+  			<br><br>
   			<label>Part-Time? </label>
   				<select name = "partTime">
   					<option value = "TRUE" selected> Yes</option>
   					<option value = "FALSE" selected> No</option>
           </select>
+        <br><br>
   			<label>Store Location: </label>
   				<select name = "classDropDown">
   					<option value = "Bend" selected>Bend, OR</option>
   					<option value = "Portland" selected>Portland, OR</option>
   					<option value = "Vancouver" selected>Vancouver, WA</option>
   			   </select>
+        <br><br>
       <input type="submit" value="Submit">
-      </fieldset>
     </fieldset>
-    <!--Products-->
+
+
+<!--Products-->
     <fieldset>
       <legend>Add Product Here:</legend>
         <p>Adding a product will add a product record to the database, and will also add a row to the intersection table
@@ -91,23 +96,23 @@
         <label>Product Name:
           <input type ="text" name ="name">
         </label>
-        <br/><br/>
+        <br><br>
         <label>Price
           <input type ="price" name ="price">
         </label>
-        <br/><br/>
+        <br><br>
         <label>Description:
           <input type ="text" name ="description">
         </label>
-        <br/><br/>
+        <br><br>
         <label>Image:
           <input type ="url" name ="image_url">
         </label>
-        <br/><br/>
+        <br><br>
         <input type="submit" value="Submit">
     </fieldset>
-    
-      <!--SALES-->
+
+<!--SALES-->
     <fieldset>
       <legend>Add Sale Here:</legend>
       <p>Adding a sale will add a sale record to the database, and will also add a row to the intersection table
@@ -116,25 +121,25 @@
         <label>Sale ID:
           <input type ="id" name ="saleID">
         </label>
-        
-        <br/><br/>
+
+        <br><br>
         <label>Employee ID (who comlpeted the sale):
           <input type ="id" name ="employeeID">
         </label>
-        <br/><br/>
+        <br><br>
         <label>Customer ID (optional):
           <input type ="id" name ="customerID">
         </label>
         <strong>customer ID is optionally related to a sale since not every transaction will be made by a customer with a profile.</strong>
-        <br/><br/>
+        <br><br>
         <label>Transaction Date:
           <input type ="date" name ="transactionDate">
         </label>
-        <br/><br/>
+        <br><br>
         <label>Purchase Total (including tax):
           <input type ="price" name ="totalPurchase">
         </label>
-        <br/><br/>
+        <br><br>
         <label>Store Location: </label>
           <select name = "classDropDown">
             <option value = "Bend" selected>Bend, OR</option>
@@ -143,11 +148,12 @@
           </select>
       <input type="submit" value="Submit">
     </fieldset>
+
   </form>
+    </div>
 
-</div>
-<footer>(c)Tropical Fish Emporium</footer>
-<script src="proj3.js"></script>
+    <footer>(c)Tropical Fish Emporium</footer>
+    <script src="proj3.js"></script>
 
-</body>
+  </body>
 </html>
