@@ -38,6 +38,34 @@ body {
     margin: 0 auto;
 }
 
+.homeContent {
+  width: 1200px;
+  margin: auto;
+  padding: 10px;
+  height: 500px;
+}
+
+.left {
+  width: 50%;
+  float: left;
+  height: 500px;
+
+}
+.right {
+  width: 50%;
+  float: left;
+  height: 500px;
+}
+
+.res {
+  margin: auto;
+  text-align: center;
+}
+#resFrame {
+  width: 1200px;
+  height: 800px;
+}
+
 #results {
   width: 100%;
   margin-top: 20px;
