@@ -6,7 +6,10 @@ CREATE TABLE employees (
   startTime time NOT NULL,
   stopTime time NOT NULL,
   hourlyRate float NOT NULL,
-  partTime boolean NOT NULL
+  partTime boolean NOT NULL,
+  firstName varchar(255),
+  lastName varchar(255),
+  CONSTRAINT fullName UNIQUE (firstName, lastName)
 ) ENGINE = INNODB;
 
 
