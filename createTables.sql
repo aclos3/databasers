@@ -1,4 +1,4 @@
---DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS employees;
 CREATE TABLE employees (
   employeeID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   storeID int(11),
@@ -13,7 +13,7 @@ CREATE TABLE employees (
 ) ENGINE = INNODB;
 
 
---DROP TABLE IF EXISTS products
+DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   productID int(11) PRIMARY KEY NOT NULL,
   name varchar(255) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE products (
 ) ENGINE = INNODB;
 
 
---DROP TABLE IF EXISTS customers;
+DROP TABLE IF EXISTS customers;
 CREATE TABLE customers (
   customerID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   email varchar(255) UNIQUE,
@@ -31,7 +31,7 @@ CREATE TABLE customers (
   CONSTRAINT fullName UNIQUE (firstName, lastName)
 ) ENGINE = INNODB;
 
---DROP TABLE IF EXISTS sales;
+DROP TABLE IF EXISTS sales;
 CREATE TABLE sales (
   saleID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   eID int(11),
@@ -42,7 +42,7 @@ CREATE TABLE sales (
   FOREIGN KEY (cID) REFERENCES customers (customerID)
 ) ENGINE = INNODB;
 
---DROP TABLE IF EXISTS sales_products
+DROP TABLE IF EXISTS sales_products;
 CREATE TABLE sales_products (
   sID int(11) NOT NULL,
   pID int(11) NOT NULL,
