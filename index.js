@@ -4,16 +4,16 @@
 //  Description: This project demonstrates some simple backend database and UI interactions by tracking workouts.
 
 const express = require('express');
-const app = express();               
+const app = express();
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var Handlebars = require('handlebars');
 var mysql = require('./dbcon.js');
-var bodyParser = require('body-parser'); 
+var bodyParser = require('body-parser');
 var port = 3143;
 
 //set port to my default for the quarter (last four of student ID)
-app.set('port', port);                          
-app.engine('handlebars', handlebars.engine);     
+app.set('port', port);
+app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -51,9 +51,12 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
 //populate / display the table.
 app.get('/', function(req, res, next){
-    res.render('index', { title: 'index' ,path:"",});          
+    res.render('index', { title: 'index' ,path:"",});
 });
 
+
+//-- CUSTOMERS ~~
+// sele vt customers
 app.get('/customers', function(req, res, next){
     var context = { title: 'customers' ,path:"customers", };
     var sqlQuery = "SELECT customerID, email, memberSince, firstName, lastName FROM customers;";
@@ -69,12 +72,12 @@ app.get('/customers', function(req, res, next){
         context.custs = allCust;
         //console.log(JSON.stringify(context));
         res.render('customers', context);
-    }); 
+    });
 });
-
+// insert new customer
 app.post('/manager', (req, res) => {
-    var parameters = [req.body.Cemail, req.body.CmemberSince, req.body.CfirstName, req.body.ClastName];
-    var queryResults = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?, ?, ?, ?)";
+    var parameters = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
+    var queryResults = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
     mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
       if(err) {
         next(err);
@@ -84,6 +87,9 @@ app.post('/manager', (req, res) => {
     });
 });
 
+
+//-- EMPLOYEES ~~
+// select employees
 app.get('/employees', (req, res, next) => {
     var context = { title: 'employees' ,path:"employees", };
     var sqlQuery = "SELECT * FROM employees";
@@ -99,8 +105,25 @@ app.get('/employees', (req, res, next) => {
         context.emps = allEmp;
         //console.log(JSON.stringify(context));
         res.render('employees', context);
-    }); 
+    });
 });
+// insert new employee
+app.post('/manager', (req, res) => {
+    var parameters = [req.body.title, req.body.startTime, req.body.stopTime, req.body.hourlyRate,
+                      req.body.partTime, req.body.empFirstName, req.body.empLastName];
+    var queryResults = "INSERT INTO employees (title, startTime, stopTime, hourlyRate, partTime, empFirstName, empLastName) VALUES (?,?,?,?,?,?,?)";
+    mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
+      if(err) {
+        next(err);
+        return;
+      }
+      res.redirect('/manager');
+    });
+});
+
+
+//-- SALESS ~~
+// select sales
 app.get('/sales', (req, res, next) => {
     var context = { title: 'sales' ,path:"sales", };
     var sqlQuery = "SELECT * FROM sales";
@@ -127,9 +150,25 @@ app.get('/sales', (req, res, next) => {
             context.sal_prod = sal_prod;
             //console.log(JSON.stringify(context));
             res.render('sales', context);
-        }); 
-    }); 
+        });
+    });
 });
+// insert new sale
+app.post('/manager', (req, res) => {
+    var parameters = [req.body.transactionDate, req.body.totalPurchase];
+    var queryResults = "INSERT INTO sales (transactionDate, totalPurchase) VALUES (?,?)";
+    mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
+      if(err) {
+        next(err);
+        return;
+      }
+      res.redirect('/manager');
+    });
+});
+
+
+//-- PRODUCTS ~~
+// select products
 app.get('/products', (req, res, next) => {
     var context = { title: 'products' ,path:"products", };
     var sqlQuery = "SELECT * FROM products";
@@ -156,8 +195,20 @@ app.get('/products', (req, res, next) => {
             context.sal_prod = sal_prod;
             //console.log(JSON.stringify(context));
             res.render('products', context);
-        }); 
-    }); 
+        });
+    });
+});
+// insert new product
+app.post('/manager', (req, res) => {
+    var parameters = [req.body.name, req.body.price];
+    var queryResults = "INSERT INTO products (name, price) VALUES (?,?)";
+    mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
+      if(err) {
+        next(err);
+        return;
+      }
+      res.redirect('/manager');
+    });
 });
 
 app.get('/manager', (req, res, next) => {
@@ -167,8 +218,8 @@ app.get('/changes', (req, res, next) => {
     res.render('changes', { title: 'changes' ,path:"changes",});
 });
 
-//boiler plate error and port handling 
-app.use(function(req, res){               
+//boiler plate error and port handling
+app.use(function(req, res){
 	res.status(404);
 	res.render("404");
 });
