@@ -3,17 +3,17 @@
 //  Title: Assignment 6: Database and UI
 //  Description: This project demonstrates some simple backend database and UI interactions by tracking workouts.
 
-const express = require('express');               
+const express = require('express');
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var Handlebars = require('handlebars');
 const app = express();
 var mysql = require('./dbcon.js');
-var bodyParser = require('body-parser'); 
+var bodyParser = require('body-parser');
 var port = 3143;
 
 //set port to my default for the quarter (last four of student ID)
-app.set('port', port);                          
-app.engine('handlebars', handlebars.engine);     
+app.set('port', port);
+app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -52,11 +52,11 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
 //populate / display the table.
 app.get('/', function(req, res, next){
-    res.render('index', { title: 'index' ,path:"",});          
+    res.render('index', { title: 'index' ,path:"",});
 });
 
 app.get('/customers', function(req, res, next){
-    var context = {/* title: 'customers' ,path:"customers", */};
+    var context = { title: 'customers', path:"customers",};
     var sqlQuery = 'SELECT customerID, email, memberSince, firstName, lastName FROM customers';
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
@@ -65,12 +65,29 @@ app.get('/customers', function(req, res, next){
         }
         var allCust = [];
         for(var i in rows){
-            allCust.push({"id": rows[i].customerID, "email": rows[i].email, "memberSince": rows[i].memberSince, "fName": rows[i].firstName, "lName": rows[i].lastName});
+            allCust.push({
+              "id": rows[i].customerID,
+              "email": rows[i].email,
+              "memberSince": rows[i].memberSince,
+              "fName": rows[i].firstName,
+              "lName": rows[i].lastName});
         }
         context.custs = allCust;
+        res.render('customers', context);
         //console.log(JSON.stringify(context));
     });
-        res.render('customers', context);
+});
+
+app.post('/customers', (req, res) => {
+    var parameters = [req.body.email, req.body.member_since, req.body.fname, req.body.lname];
+    var queryResults = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
+    mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
+      if(err) {
+        next(err);
+        return;
+      }
+      res.redirect('/customers');
+    });
 });
 
 app.get('/employees', (req, res, next) => {
@@ -90,8 +107,8 @@ app.get('/changes', (req, res, next) => {
     res.render('changes', { title: 'changes' ,path:"changes",});
 });
 
-//boiler plate error and port handling 
-app.use(function(req, res){               
+//boiler plate error and port handling
+app.use(function(req, res){
 	res.status(404);
 	res.render("404");
 });
