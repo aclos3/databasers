@@ -17,7 +17,7 @@
           <label>Member Since:
             <input type ="date" name ="memberSince">
           </label><br><br>
-          <button onclick="confirmCust();return false;">Submit</button>
+          <input name ="custClick" id="custClick" value="Submit" type="Submit"/>
             <div id="custTy"></div>
       </fieldset>
 
@@ -50,7 +50,7 @@
   					        <option value = "1" selected> Yes</option>
   					        <option value = "0" selected> No</option>
              </select><br><br>
-            <button onclick="confirmEmp();return false;">Submit</button>
+            <input name ="empClick" id="empClick" value="Submit" type="Submit"/>
              <div id="empTy"></div>
       </fieldset>
 
@@ -65,7 +65,7 @@
           <label>Price
             <input type ="price" name ="price">
           </label><br><br>
-          <button onclick="confirmProd();return false;">Submit</button>
+          <input name ="prodClick" id="prodClick" value="Submit" type="Submit"/>
             <div id="prodTy"></div>
       </fieldset>
 
@@ -74,15 +74,13 @@
         <legend>Add Sale Here:</legend>
           <p>Adding a sale will add a sale record to the database, and will also add a row to the intersection table
             "products_sales." The primary key of the sale record will be a <strong>foreign key</strong> in the product_sales table.</p>
-          <label>Employee ID (who comlpeted the sale):
+          <label>Employee ID (who comlpeted the sale): THIS MUST BE AN ACTUAL EMPLOYEE ID
             <input type ="id" name ="empID">
           </label><br><br>
-          <label>Customer ID (optional):
+          <label>Customer ID:
             <select id="sCustomerID">
-              <option value="3">3: James Anderson</option>
-              <option value="12">12: Sally Brands</option>
-              <option value="5">5: Andrew Clos</option>
-              <option value="1">1: Haley Woehrle</option>
+              <option value="300350">300350: James Anderson</option>
+    
             </select>
           </label>
           <strong>customer ID will dynamically populate with all customers using a SELECT query on the `Customers` table.</strong><br><br>
@@ -92,10 +90,10 @@
           <label>Purchase Total (including tax):
             <input type ="price" name ="totalPurchase">
           </label><br><br>
-          <label>Number of distinct products:
+          <!--<label>Number of distinct products:
             <input type ="number" name ="SnumProds" id="numProds" value="1">
-          </label><br><br>
-            <button onclick="confirmSal();showProds();return false;">Submit</button>
+          </label><br><br> -->
+          <input name ="salClick" id="salClick" value="Submit" type="Submit"/>
               <div id="salTy"></div>
       </fieldset>
         <div id="sales_prods"></div>

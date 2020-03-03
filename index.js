@@ -10,6 +10,7 @@ var Handlebars = require('handlebars');
 var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
 var port = 3143;
+var bClicked = "";
 
 //set port to my default for the quarter (last four of student ID)
 app.set('port', port);
@@ -19,7 +20,6 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-
 
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
@@ -49,14 +49,25 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 
+app.post('/assignCust', function (req, res) {
+    bClicked = "cust";
+});
+app.post('/assignEmp', function (req, res) {
+    bClicked = "emp";
+});
+app.post('/assignProd', function (req, res) {
+    bClicked = "prod";
+});
+app.post('/assignSale', function (req, res) {
+    bClicked = "sal";
+});
+
 //populate / display the table.
 app.get('/', function(req, res, next){
     res.render('index', { title: 'index' ,path:"",});
 });
 
-function confirmCust() {
-    console.log("cust!");
-}
+
 //-- CUSTOMERS ~~
 // sele vt customers
 app.get('/customers', function(req, res, next){
@@ -77,18 +88,58 @@ app.get('/customers', function(req, res, next){
     });
 });
 // insert new customer
-app.post('/manager', (req, res) => {
-    var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
-    var queryResultsC = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
-    mysql.pool.query(queryResultsC, parametersC, function(err, rows, fields) {
-      if(err) {
+app.post('/manager', (req, res, next) => {
+    
+    if(bClicked === "cust"){
+        console.log("cust");
+        var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
+        var queryResultsC = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
+        mysql.pool.query(queryResultsC, parametersC, function(err, rows, fields) {
+        if(err) {
         next(err);
         return;
-      }
-      res.redirect('/manager');
-    });
+        }
+        res.redirect('/manager');
+        });
+    }
+    if (bClicked === "emp"){
+        console.log("emp");
+        var parametersE = [req.body.storeID, req.body.title, req.body.startTime, req.body.stopTime, req.body.hourlyRate,
+            req.body.partTime, req.body.empFirstName, req.body.empLastName];
+        var queryResultsE = "INSERT INTO employees (storeID, title, startTime, stopTime, hourlyRate, partTime, firstName, lastName) VALUES (?,?,?,?,?,?,?,?)";
+        mysql.pool.query(queryResultsE, parametersE, function(err, rows, fields) {
+            if(err) {
+                next(err);
+                return;
+            }
+            res.redirect('/manager');
+            });
+    }
+    if (bClicked === "sal"){
+        console.log("sal");
+        var parametersS = [req.body.empID, '300350', req.body.transactionDate, req.body.totalPurchase];
+        var queryResultsS = "INSERT INTO sales (eID, cID, transactionDate, totalPurchase) VALUES (?,?,?,?)";
+        mysql.pool.query(queryResultsS, parametersS, function(err, rows, fields) {
+          if(err) {
+            next(err);
+            return;
+          }
+          res.redirect('/manager');
+        });
+    }
+    if (bClicked === "prod") {
+        console.log("prod");
+        var parametersP = [req.body.pName, req.body.price];
+        var queryResultsP = "INSERT INTO products (name, price) VALUES (?,?)";
+        mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
+          if(err) {
+            next(err);
+            return;
+          }
+          res.redirect('/manager');
+        });
+    }
 });
-
 
 //-- EMPLOYEES ~~
 // select employees
@@ -110,18 +161,9 @@ app.get('/employees', (req, res, next) => {
     });
 });
 // insert new employee
-app.post('/manager', (req, res) => {
-    var parametersE = [req.body.storeID, req.body.title, req.body.startTime, req.body.stopTime, req.body.hourlyRate,
-                      req.body.partTime, req.body.empFirstName, req.body.empLastName];
-    var queryResultsE = "INSERT INTO employees (storeID, title, startTime, stopTime, hourlyRate, partTime, firstName, lastName) VALUES (?,?,?,?,?,?,?,?)";
-    mysql.pool.query(queryResultsE, parametersE, function(err, rows, fields) {
-      if(err) {
-        next(err);
-        return;
-      }
-      res.redirect('/manager');
-    });
-});
+//app.post('/manager', (req, res, next) => {
+    
+//});
 
 
 //-- SALES ~~
@@ -156,17 +198,9 @@ app.get('/sales', (req, res, next) => {
     });
 });
 // insert new sale
-app.post('/manager', (req, res) => {
-    var parametersS = [req.body.empID, req.body.sCustomerID, req.body.transactionDate, req.body.totalPurchase];
-    var queryResultsS = "INSERT INTO sales (eID, cID, transactionDate, totalPurchase) VALUES (?,?)";
-    mysql.pool.query(queryResultsS, parametersS, function(err, rows, fields) {
-      if(err) {
-        next(err);
-        return;
-      }
-      res.redirect('/manager');
-    });
-});
+//app.post('/manager', (req, res, next) => {
+//    
+//});
 
 
 //-- PRODUCTS ~~
@@ -201,25 +235,22 @@ app.get('/products', (req, res, next) => {
     });
 });
 // insert new product
-app.post('/manager', (req, res) => {
-    var parametersP = [req.body.pName, req.body.price];
-    var queryResultsP = "INSERT INTO products (name, price) VALUES (?,?)";
-    mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
-      if(err) {
-        next(err);
-        return;
-      }
-      res.redirect('/manager');
-    });
-});
+//app.post('/manager', (req, res, next) => {
+// 
+//});
 
 app.get('/manager', (req, res, next) => {
+    
     res.render('manager', { title: 'manager' ,path:"manager",});
+ 
 });
 app.get('/changes', (req, res, next) => {
     res.render('changes', { title: 'changes' ,path:"changes",});
 });
 
+function myOutput() {
+    alert("customer!");
+}
 //boiler plate error and port handling
 app.use(function(req, res){
 	res.status(404);
