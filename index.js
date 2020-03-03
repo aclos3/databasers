@@ -56,7 +56,7 @@ app.get('/', function(req, res, next){
 
 app.get('/customers', function(req, res, next){
     var context = { title: 'customers' ,path:"customers", };
-    var sqlQuery = "SELECT customerID, email, memberSince, firstName, lastName FROM customers;";
+    var sqlQuery = "SELECT customerID, email, memberSince, firstName, lastName FROM customers ORDER BY customerID DESC;";
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -86,7 +86,7 @@ app.post('/manager', (req, res) => {
 
 app.get('/employees', (req, res, next) => {
     var context = { title: 'employees' ,path:"employees", };
-    var sqlQuery = "SELECT * FROM employees";
+    var sqlQuery = "SELECT * FROM employees ORDER BY employeeID DESC";
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -103,8 +103,8 @@ app.get('/employees', (req, res, next) => {
 });
 app.get('/sales', (req, res, next) => {
     var context = { title: 'sales' ,path:"sales", };
-    var sqlQuery = "SELECT * FROM sales";
-    var sqlQuery2 = "SELECT * FROM sales_products";
+    var sqlQuery = "SELECT * FROM sales ORDER BY saleID DESC";
+    var sqlQuery2 = "SELECT * FROM sales_products ORDER BY sID DESC";
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -132,8 +132,8 @@ app.get('/sales', (req, res, next) => {
 });
 app.get('/products', (req, res, next) => {
     var context = { title: 'products' ,path:"products", };
-    var sqlQuery = "SELECT * FROM products";
-    var sqlQuery2 = "SELECT * FROM sales_products";
+    var sqlQuery = "SELECT * FROM products ORDER BY productID DESC";
+    var sqlQuery2 = "SELECT * FROM sales_products ORDER BY sID DESC";
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);

@@ -50,6 +50,9 @@ DELETE FROM sales WHERE id = :selected_sale_id;
     --PRODUCTS
 DELETE FROM products WHERE id = :selected_prod_id;
 
+    --SALES PRODUCTS
+DELETE FROM sales_products WHERE id = :selected_prod_id OR id = :selected_sale_id;
+
 --INSERTS
     --CUSTOMERS
 INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (:email_in, :date_in:, :fname_in, :lname_in);
