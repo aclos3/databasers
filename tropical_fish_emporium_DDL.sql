@@ -24,7 +24,7 @@ UNLOCK TABLES;
 -- PRODUCTS ~~
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
-  productID int(11) PRIMARY KEY NOT NULL,
+  productID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   name varchar(255) NOT NULL,
   price decimal(16,2) NOT NULL
 ) ENGINE = INNODB;
