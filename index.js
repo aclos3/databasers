@@ -4,16 +4,16 @@
 //  Description: This project demonstrates some simple backend database and UI interactions by tracking workouts.
 
 const express = require('express');
+const app = express();               
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var Handlebars = require('handlebars');
-const app = express();
 var mysql = require('./dbcon.js');
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser'); 
 var port = 3143;
 
 //set port to my default for the quarter (last four of student ID)
-app.set('port', port);
-app.engine('handlebars', handlebars.engine);
+app.set('port', port);                          
+app.engine('handlebars', handlebars.engine);     
 app.set('view engine', 'handlebars');
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -49,15 +49,14 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 
-
 //populate / display the table.
 app.get('/', function(req, res, next){
-    res.render('index', { title: 'index' ,path:"",});
+    res.render('index', { title: 'index' ,path:"",});          
 });
 
 app.get('/customers', function(req, res, next){
-    var context = { title: 'customers', path:"customers",};
-    var sqlQuery = 'SELECT customerID, email, memberSince, firstName, lastName FROM customers';
+    var context = { title: 'customers' ,path:"customers", };
+    var sqlQuery = "SELECT customerID, email, memberSince, firstName, lastName FROM customers;";
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -65,39 +64,100 @@ app.get('/customers', function(req, res, next){
         }
         var allCust = [];
         for(var i in rows){
-            allCust.push({
-              "id": rows[i].customerID,
-              "email": rows[i].email,
-              "memberSince": rows[i].memberSince,
-              "fName": rows[i].firstName,
-              "lName": rows[i].lastName});
+            allCust.push({"id": rows[i].customerID, "email": rows[i].email, "memberSince": rows[i].memberSince, "fName": rows[i].firstName, "lName": rows[i].lastName});
         }
         context.custs = allCust;
-        res.render('customers', context);
         //console.log(JSON.stringify(context));
-    });
+        res.render('customers', context);
+    }); 
 });
 
-app.post('/customers', (req, res) => {
-    var parameters = [req.body.email, req.body.member_since, req.body.fname, req.body.lname];
-    var queryResults = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
+app.post('/manager', (req, res) => {
+    var parameters = [req.body.Cemail, req.body.CmemberSince, req.body.CfirstName, req.body.ClastName];
+    var queryResults = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?, ?, ?, ?)";
     mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
       if(err) {
         next(err);
         return;
       }
-      res.redirect('/customers');
+      res.redirect('/manager');
     });
 });
 
 app.get('/employees', (req, res, next) => {
-    res.render('employees', { title: 'employees' ,path:"employees",});
+    var context = { title: 'employees' ,path:"employees", };
+    var sqlQuery = "SELECT * FROM employees";
+    mysql.pool.query(sqlQuery, function (err, rows, fields) {
+        if(err) {
+            next(err);
+            return;
+        }
+        var allEmp = [];
+        for(var i in rows){
+            allEmp.push({"id": rows[i].employeeID, "fName": rows[i].firstName, "lname": rows[i].lastName, "sID": rows[i].storeID, "title": rows[i].title, "sTime": rows[i].startTime, "stTime": rows[i].stopTime, "hRate": rows[i].hourlyRate, "pTime": rows[i].partTime});
+        }
+        context.emps = allEmp;
+        //console.log(JSON.stringify(context));
+        res.render('employees', context);
+    }); 
 });
 app.get('/sales', (req, res, next) => {
-    res.render('sales', { title: 'sales' ,path:"sales",});
+    var context = { title: 'sales' ,path:"sales", };
+    var sqlQuery = "SELECT * FROM sales";
+    var sqlQuery2 = "SELECT * FROM sales_products";
+    mysql.pool.query(sqlQuery, function (err, rows, fields) {
+        if(err) {
+            next(err);
+            return;
+        }
+        var allSales = [];
+        for(var i in rows){
+            allSales.push({"id": rows[i].saleID, "eID": rows[i].eID, "cID": rows[i].cID, "tDate": rows[i].transactionDate, "tPurch": rows[i].totalPurchase});
+        }
+        mysql.pool.query(sqlQuery2, function (err, rows2, fields) {
+            if(err) {
+                next(err);
+                return;
+            }
+            var sal_prod = [];
+            for(var i2 in rows2){
+                sal_prod.push({"sid": rows2[i2].sID, "pid": rows2[i2].pID, "qty": rows2[i2].number});
+            }
+            context.sal = allSales;
+            context.sal_prod = sal_prod;
+            //console.log(JSON.stringify(context));
+            res.render('sales', context);
+        }); 
+    }); 
 });
 app.get('/products', (req, res, next) => {
-    res.render('products', { title: 'products' ,path:"products",});
+    var context = { title: 'products' ,path:"products", };
+    var sqlQuery = "SELECT * FROM products";
+    var sqlQuery2 = "SELECT * FROM sales_products";
+    mysql.pool.query(sqlQuery, function (err, rows, fields) {
+        if(err) {
+            next(err);
+            return;
+        }
+        var allProds = [];
+        for(var i in rows){
+            allProds.push({"id": rows[i].productID, "name": rows[i].name, "price": rows[i].price});
+        }
+        mysql.pool.query(sqlQuery2, function (err, rows2, fields) {
+            if(err) {
+                next(err);
+                return;
+            }
+            var sal_prod = [];
+            for(var i2 in rows2){
+                sal_prod.push({"sid": rows2[i2].sID, "pid": rows2[i2].pID, "qty": rows2[i2].number});
+            }
+            context.prod = allProds;
+            context.sal_prod = sal_prod;
+            //console.log(JSON.stringify(context));
+            res.render('products', context);
+        }); 
+    }); 
 });
 
 app.get('/manager', (req, res, next) => {
@@ -107,8 +167,8 @@ app.get('/changes', (req, res, next) => {
     res.render('changes', { title: 'changes' ,path:"changes",});
 });
 
-//boiler plate error and port handling
-app.use(function(req, res){
+//boiler plate error and port handling 
+app.use(function(req, res){               
 	res.status(404);
 	res.render("404");
 });

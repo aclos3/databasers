@@ -12,16 +12,16 @@
       <fieldset>
         <legend>Add Customer Here:</legend>
           <label>First Name:
-            <input type ="text" name ="firstName">
+            <input type ="text" name ="CfirstName">
           </label><br><br>
           <label>Last Name:
-            <input type ="text" name ="lastName">
+            <input type ="text" name ="ClastName">
           </label><br><br>
           <label>E-mail Address:
-            <input type ="text" name ="email">
+            <input type ="text" name ="Cemail">
           </label><br><br>
           <label>Member Since:
-            <input type ="date" name ="memberSince">
+            <input type ="date" name ="CmemberSince">
           </label><br><br>
           <button onclick="confirmCust();return false;">Submit</button>
             <div id="custTy"></div>
@@ -31,28 +31,28 @@
       <fieldset>
         <legend>Add Employee Here:</legend>
   			   <label>First Name:
-             <input type ="text" name ="firstName">
+             <input type ="text" name ="EfirstName">
            </label><br><br>
   			   <label>Last Name:
-             <input type ="text" name ="lastName">
+             <input type ="text" name ="ElastName">
            </label><br><br>
            <label>Store ID:
-            <input type ="number" name ="store_id">
+            <input type ="number" name ="Estore_id">
           </label><br><br>
            <label>Title:
-            <input type ="text" name ="title">
+            <input type ="text" name ="Etitle">
           </label><br><br>
   			   <label>Shift Start-Time:
-             <input type ="time" name ="startTime">
+             <input type ="time" name ="EstartTime">
            </label><br><br>
   			   <label>Shift End-Time:
-             <input type ="time" name ="endTime">
+             <input type ="time" name ="EendTime">
            </label><br><br>
   			   <label>Hourly Rate:
-             <input type ="number" name ="hourlyRate">
+             <input type ="number" name ="EhourlyRate">
            </label><br><br>
   			   <label>Part-Time?</label>
-  				   <select name = "partTime">
+  				   <select name = "EpartTime">
   					        <option value = "TRUE" selected> Yes</option>
   					        <option value = "FALSE" selected> No</option>
              </select><br><br>
@@ -66,10 +66,10 @@
           <p>Adding a product will add a product record to the database, and will also add a row to the intersection table
           "products_sales." The primary key of the product record will be a <strong>foreign key</strong> in the product_sales table.</p>
           <label>Product Name:
-            <input type ="text" name ="name">
+            <input type ="text" name ="Pname">
           </label><br><br>
           <label>Price
-            <input type ="price" name ="price">
+            <input type ="price" name ="Pprice">
           </label><br><br>
           <button onclick="confirmProd();return false;">Submit</button>
             <div id="prodTy"></div>
@@ -81,7 +81,7 @@
           <p>Adding a sale will add a sale record to the database, and will also add a row to the intersection table
             "products_sales." The primary key of the sale record will be a <strong>foreign key</strong> in the product_sales table.</p>
           <label>Employee ID (who comlpeted the sale):
-            <input type ="id" name ="employeeID">
+            <input type ="id" name ="SemployeeID">
           </label><br><br>
           <label>Customer ID (optional):
             <select id="customerID">
@@ -93,13 +93,13 @@
           </label>
           <strong>customer ID will dynamically populate with all customers using a SELECT query on the `Customers` table.</strong><br><br>
           <label>Transaction Date:
-            <input type ="date" name ="transactionDate">
+            <input type ="date" name ="StransactionDate">
           </label><br><br>
           <label>Purchase Total (including tax):
-            <input type ="price" name ="totalPurchase">
+            <input type ="price" name ="StotalPurchase">
           </label><br><br>
           <label>Number of distinct products:
-            <input type ="number" name ="numProds" id="numProds" value="1">
+            <input type ="number" name ="SnumProds" id="numProds" value="1">
           </label><br><br>
             <button onclick="confirmSal();showProds();return false;">Submit</button>
               <div id="salTy"></div>

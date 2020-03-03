@@ -26,12 +26,57 @@
   			    <label>Purchase Total (including tax):
               <input type ="search" name ="totalPurchase">
             </label><br><br>
-          <button onclick="showResults();return false;">Submit</button>
-          <span class="instr"><--Click me to see some sample data.</span>
+          <button onclick="return false;">Submit</button>
         </fieldset>
-        <button onclick="return false;"">See All</button>  <--See all entries in the Sales table
-        <div id="salResults"></div>
-
+        <button onclick="return false;">See All</button>
+{{#if sal}}
+<div style="height: 300px; overflow-y: scroll;">
+  <h3>Sales:</h3>
+    <table>
+      <tr>
+        <th>select</th>
+        <th class="pk">saleID</th>
+        <th>employeeID</th>
+        <th>customerID</th>
+        <th>transactionDate</th>
+        <th>totalPurchase</th>
+      </tr>
+      {{#each sal}}
+      <tr>
+        <td><input type="checkbox" name="salCheck{{id}}"></td>
+        <td>{{id}}</td>
+        <td>{{eID}}</td>
+        <td>{{cID}}</td>
+        <td>{{tDate}}</td>
+        <td>{{tPurch}}</td>
+      </tr>
+    {{/each}}
+    </table>
+    </div>
+{{/if}}
+<br><br>
+{{#if sal_prod}}
+<div style="height: 300px; overflow-y: scroll;">
+   <h3>sales_products:</h3>
+    <table>
+      <tr>
+        <th>select</th>
+        <th class="fk">saleID</th>
+        <th class="fk">productID</th>
+        <th> quantity</th>
+      </tr>
+      {{#each sal_prod}}
+      <tr>
+        <td><input type="checkbox" name="sal_prodCheck{{sid}}{{pid}}"></td>
+        <td>{{sid}}</td>
+        <td>{{pid}}</td>
+        <td>{{qty}}</td>
+      </tr>
+    {{/each}}
+    </table>
+</div>
+{{/if}}
+</div>
     </form>
     </div>
     <footer>© Tropical Fish Emporium</footer>

@@ -1,32 +1,68 @@
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="/css/proj3.css" rel = "stylesheet" type="text/css">
+<div style="padding-left:16px">
+  <h2>Tropical Fish Emporium</h2>
+    <p>Search for and delete products from the database.</p>
 
-  <body>
+  <form method = "post">
+    <fieldset>
+      <legend>Search for a Product:</legend>
+        <label>productId:
+          <input type ="search" name ="productId">
+        </label><br><br>  
+        <label>Product Name:
+          <input type ="search" name ="name">
+        </label><br><br>
+        <label>Price
+          <input type ="search" name ="price">
+        </label><br><br>
 
-    <div style="padding-left:16px">
-      <h2>Tropical Fish Emporium</h2>
-        <p>Search for and delete products from the database.</p>
+        <button onclick="return false;">Submit</button>
 
-    <form method = "post">
-      <fieldset>
-        <legend>Search for a Product:</legend>
-          <label>productId:
-            <input type ="search" name ="productId">
-          </label><br><br>  
-          <label>Product Name:
-            <input type ="search" name ="name">
-          </label><br><br>
-  			  <label>Price
-            <input type ="search" name ="price">
-          </label><br><br>
-
-          <button onclick="showResults();return false;">Submit</button>
-          <span class="instr"><--Click me to see some sample data.</span>
-
-      </fieldset>
-      <button onclick="return false;"">See All</button>  <--See all entries in the Products table
-      <div id="prodResults">
+    </fieldset>
+    <button onclick="return false;">See All</button> 
+  {{#if prod}}
+  <div style="height: 300px; overflow-y: scroll;">
+    <h3>Produts:</h3>
+    <table>
+      <tr>
+        <th>select</th>
+        <th class="pk">productID</th>
+        <th>name</th>
+        <th>price</th>
+      </tr>
+      {{#each prod}}
+      <tr>
+        <td><input type="checkbox" name="prodCheck{{id}}"></td>
+        <td>{{id}}</td>
+        <td>{{name}}</td>
+        <td>{{price}}</td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+{{/if}}
+<br><br>
+  {{#if sal_prod}}
+  <div style="height: 300px; overflow-y: scroll;">
+   <h3>sales_products:</h3>
+    <table>
+      <tr>
+        <th>select</th>
+        <th class="fk">saleID</th>
+        <th class="fk">productID</th>
+        <th> quantity</th>
+      </tr>
+      {{#each sal_prod}}
+      <tr>
+        <td><input type="checkbox" name="sal_prodCheck{{sid}}{{pid}}"></td>
+        <td>{{sid}}</td>
+        <td>{{pid}}</td>
+        <td>{{qty}}</td>
+      </tr>
+    {{/each}}
+    </table>
+</div>
+{{/if}}
         
       </div>
 
