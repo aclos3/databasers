@@ -54,7 +54,9 @@ app.get('/', function(req, res, next){
     res.render('index', { title: 'index' ,path:"",});
 });
 
-
+function confirmCust() {
+    console.log("cust!");
+}
 //-- CUSTOMERS ~~
 // sele vt customers
 app.get('/customers', function(req, res, next){
@@ -76,9 +78,9 @@ app.get('/customers', function(req, res, next){
 });
 // insert new customer
 app.post('/manager', (req, res) => {
-    var parameters = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
-    var queryResults = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
-    mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
+    var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
+    var queryResultsC = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
+    mysql.pool.query(queryResultsC, parametersC, function(err, rows, fields) {
       if(err) {
         next(err);
         return;
@@ -100,7 +102,7 @@ app.get('/employees', (req, res, next) => {
         }
         var allEmp = [];
         for(var i in rows){
-            allEmp.push({"id": rows[i].employeeID, "fName": rows[i].firstName, "lname": rows[i].lastName, "sID": rows[i].storeID, "title": rows[i].title, "sTime": rows[i].startTime, "stTime": rows[i].stopTime, "hRate": rows[i].hourlyRate, "pTime": rows[i].partTime});
+            allEmp.push({"id": rows[i].employeeID, "sID": rows[i].storeID, "title": rows[i].title, "sTime": rows[i].startTime, "stTime": rows[i].stopTime, "hRate": rows[i].hourlyRate, "pTime": rows[i].partTime, "fName": rows[i].firstName, "lname": rows[i].lastName});
         }
         context.emps = allEmp;
         //console.log(JSON.stringify(context));
@@ -109,10 +111,10 @@ app.get('/employees', (req, res, next) => {
 });
 // insert new employee
 app.post('/manager', (req, res) => {
-    var parameters = [req.body.title, req.body.startTime, req.body.stopTime, req.body.hourlyRate,
+    var parametersE = [req.body.storeID, req.body.title, req.body.startTime, req.body.stopTime, req.body.hourlyRate,
                       req.body.partTime, req.body.empFirstName, req.body.empLastName];
-    var queryResults = "INSERT INTO employees (title, startTime, stopTime, hourlyRate, partTime, empFirstName, empLastName) VALUES (?,?,?,?,?,?,?)";
-    mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
+    var queryResultsE = "INSERT INTO employees (storeID, title, startTime, stopTime, hourlyRate, partTime, firstName, lastName) VALUES (?,?,?,?,?,?,?,?)";
+    mysql.pool.query(queryResultsE, parametersE, function(err, rows, fields) {
       if(err) {
         next(err);
         return;
@@ -122,7 +124,7 @@ app.post('/manager', (req, res) => {
 });
 
 
-//-- SALESS ~~
+//-- SALES ~~
 // select sales
 app.get('/sales', (req, res, next) => {
     var context = { title: 'sales' ,path:"sales", };
@@ -155,9 +157,9 @@ app.get('/sales', (req, res, next) => {
 });
 // insert new sale
 app.post('/manager', (req, res) => {
-    var parameters = [req.body.transactionDate, req.body.totalPurchase];
-    var queryResults = "INSERT INTO sales (transactionDate, totalPurchase) VALUES (?,?)";
-    mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
+    var parametersS = [req.body.empID, req.body.sCustomerID, req.body.transactionDate, req.body.totalPurchase];
+    var queryResultsS = "INSERT INTO sales (eID, cID, transactionDate, totalPurchase) VALUES (?,?)";
+    mysql.pool.query(queryResultsS, parametersS, function(err, rows, fields) {
       if(err) {
         next(err);
         return;
@@ -180,7 +182,7 @@ app.get('/products', (req, res, next) => {
         }
         var allProds = [];
         for(var i in rows){
-            allProds.push({"id": rows[i].productID, "name": rows[i].name, "price": rows[i].price});
+            allProds.push({"id": rows[i].productID, "pName": rows[i].name, "price": rows[i].price});
         }
         mysql.pool.query(sqlQuery2, function (err, rows2, fields) {
             if(err) {
@@ -200,9 +202,9 @@ app.get('/products', (req, res, next) => {
 });
 // insert new product
 app.post('/manager', (req, res) => {
-    var parameters = [req.body.name, req.body.price];
-    var queryResults = "INSERT INTO products (name, price) VALUES (?,?)";
-    mysql.pool.query(queryResults, parameters, function(err, rows, fields) {
+    var parametersP = [req.body.pName, req.body.price];
+    var queryResultsP = "INSERT INTO products (name, price) VALUES (?,?)";
+    mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
       if(err) {
         next(err);
         return;
