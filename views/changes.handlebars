@@ -1,26 +1,28 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="proj3.css" rel = "stylesheet" type="text/css">
-  </head>
+    <link href="/css/proj3.css" rel = "stylesheet" type="text/css">
+
   <body>
-    <div class="nav" id="homenav">
-      <a href="index.html">Home</a>
-      <a href="customers.html">Customers</a>
-      <a href="employees.html">Employees</a>
-      <a href="sales.html" >Sales</a>
-      <a href="products.html">Products</a>
-      <a href="manager.html" >Manager</a>
-      <a href="changes.html" class="active">Change Log</a>
-      <a href="javascript:void(0);" class="icon" onclick="navClick()">
-        <i class="fa fa-bars"></i></a>
-      </div>
 
       <div style="padding-left:16px">
         <h2>Tropical Fish Emporium</h2>
- 
+        <h3>Step 4 to Step 5 Draft</h3>
+        <p>These changes were made based on feedback from peer review during step 4 and updates to the site to include a backend that handles INSERTs and SELECTS.
+        </p>
+        <ul>
+            <li>A DELETE SQL command was added for the products_sales intersection table.</li>
+            <li>We recognize that the addition of a sales_product row(s) to the database should only occur after a sale is entered.</li>
+            <ul>
+              <li>The saleID of the sale will be the saleID of the entries to sales_products.</li>
+              <li>The number of entries to sales_products for any given sale will be equal to the number of unique products that are part of that order.</li>
+            </ul>
+            <li>Upon loading the Customers, Employees, Sales or Products pages, the database is queried and all results found in that table are displayed.</li>
+            <li>On the Manager page, entries may be made to each of the database's tables.</li>
+            <ul>
+              <li>You can check that these results were added by going back to corresponding page. Results are ordered by ID in descending order, so your entry should be at the top of the table.</li>
+            </ul>
+
+        </ul>
         <h3>Step 3 Final to Step 4 Draft</h3>
         <p>These changes were made based on feedback from grading and team collaboration to refine the HTML template and best prepare
             our database outline for implementation.
@@ -60,6 +62,4 @@
     </form>
     </div>
     <footer>© Tropical Fish Emporium</footer>
-    <script src="proj3.js"></script>
   </body>
-</html>

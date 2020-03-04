@@ -24,7 +24,7 @@ UNLOCK TABLES;
 -- PRODUCTS ~~
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
-  productID int(11) PRIMARY KEY NOT NULL,
+  productID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   name varchar(255) NOT NULL,
   price decimal(16,2) NOT NULL
 ) ENGINE = INNODB;
@@ -45,9 +45,9 @@ DROP TABLE IF EXISTS customers;
 CREATE TABLE customers (
   customerID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   email varchar(255) UNIQUE,
-  firstName varchar(255),
-  lastName varchar(255),
-  CONSTRAINT fullName UNIQUE (firstName, lastName)
+  custFirstName varchar(255),
+  custLastName varchar(255),
+  CONSTRAINT fullName UNIQUE (custFirstName, custLastName)
 ) ENGINE = INNODB;
 
 LOCK TABLES customers WRITE;
@@ -88,11 +88,6 @@ CREATE TABLE sales_products (
   FOREIGN KEY (pID) REFERENCES products (productID),
   PRIMARY KEY (sID, pID)
 ) ENGINE = INNODB;
-
--- Getting error:
--- #1452 - Cannot add or update a child row: a foreign key constraint fails
--- (`cs340_woehrleh`.`sales_products`, CONSTRAINT `sales_products_ibfk_1` FOREIGN KEY (`sID`) REFERENCES `sales` (`saleID`))
--- Only INSERT That doesn't load in to phpmyadmin
 
 LOCK TABLES sales_products WRITE;
 INSERT INTO sales_products VALUES

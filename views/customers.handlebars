@@ -1,0 +1,47 @@
+<div style="padding-left:16px">
+  <h2>Tropical Fish Emporium</h2>
+    <p>Search for and delete customers here.</p>
+
+  <form method ="GET" action ="/customers">
+    <fieldset>
+      <legend>Search for a Customer:</legend>
+  			<label>First Name:
+          <input type ="text" name ="firstName">
+        </label><br><br>
+  			<label>Last Name:
+          <input type ="text" name ="lastName">
+        </label><br><br>
+  			<label>E-mail Address:
+          <input type ="text" name ="email">
+        </label><br><br>
+        <input name ="custSearch" id="custSearch" value="Search" type="submit"/>
+    </fieldset>
+  </form>
+    <!--<input name ="custSearch" id="custSearch" value="Submit" type="Submit"/> -->
+  
+  {{#if custs}}
+    <table>
+      <tr>
+        <th>select</th>
+        <th class="pk">customerId</th>
+        <th>email</th>
+        <th>memberSince</th>
+        <th>firstName</th>
+        <th>lastName</th>
+      </tr>
+      {{#each custs}}
+      <tr>
+        <td><input type="checkbox" name="custCheck{{id}}"></td>
+        <td>{{id}}</td>
+        <td>{{email}}</td>
+        <td>{{memberSince}}</td>
+        <td>{{fName}}</td>
+        <td>{{lName}}</td>
+      </tr>
+      {{/each}}
+    </table>
+  {{/if}}
+
+</div>
+    <footer>© Tropical Fish Emporium</footer>
+

@@ -1,0 +1,12 @@
+<div class="nav" id="homenav">
+        <a class="{{#ifCond path '==' ''}}active{{/ifCond}}" href="/">Home</a>
+        <a class="{{#ifCond path '==' 'customers'}}active{{/ifCond}}" href="/customers">Customers</a>
+        <a class="{{#ifCond path '==' 'employees'}}active{{/ifCond}}" href="/employees">Employees</a>
+        <a class="{{#ifCond path '==' 'sales'}}active{{/ifCond}}" href="/sales">Sales</a>
+        <a class="{{#ifCond path '==' 'products'}}active{{/ifCond}}" href="/products">Products</a>
+        <a class="{{#ifCond path '==' 'manager'}}active{{/ifCond}}" href="/manager">Manager</a>
+        <a class="{{#ifCond path '==' 'changes'}}active{{/ifCond}}"href="/changes">Change Log</a>
+        <a href="javascript:void(0);" class="icon" onclick="navClick()">
+            <i class="fa fa-bars"></i>
+        </a>
+</div>

@@ -1,23 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="proj3.css" rel = "stylesheet" type="text/css">
-  </head>
-  <body>
-    <div class="nav" id="homenav">
-      <a href="index.html">Home</a>
-      <a href="customers.html">Customers</a>
-      <a href="employees.html">Employees</a>
-      <a href="sales.html">Sales</a>
-      <a href="products.html">Products</a>
-      <a href="manager.html" class="active">Manager</a>
-      <a href="changes.html">Change Log</a>
-      <a href="javascript:void(0);" class="icon" onclick="navClick()">
-        <i class="fa fa-bars"></i></a>
-    </div>
-
     <div style="padding-left:16px">
       <h2>Tropical Fish Emporium</h2>
         <p>Here customers, employees, sales, and products can be added to the database.</p>
@@ -26,10 +6,10 @@
       <fieldset>
         <legend>Add Customer Here:</legend>
           <label>First Name:
-            <input type ="text" name ="firstName">
+            <input type ="text" name ="custFirstName">
           </label><br><br>
           <label>Last Name:
-            <input type ="text" name ="lastName">
+            <input type ="text" name ="custLastName">
           </label><br><br>
           <label>E-mail Address:
             <input type ="text" name ="email">
@@ -37,7 +17,7 @@
           <label>Member Since:
             <input type ="date" name ="memberSince">
           </label><br><br>
-          <button onclick="confirmCust();return false;">Submit</button>
+          <input name ="custClick" id="custClick" value="Submit" type="Submit"/>
             <div id="custTy"></div>
       </fieldset>
 
@@ -45,13 +25,13 @@
       <fieldset>
         <legend>Add Employee Here:</legend>
   			   <label>First Name:
-             <input type ="text" name ="firstName">
+             <input type ="text" name ="empFirstName">
            </label><br><br>
   			   <label>Last Name:
-             <input type ="text" name ="lastName">
+             <input type ="text" name ="empLastName">
            </label><br><br>
-           <label>Store ID:
-            <input type ="number" name ="store_id">
+           <label>StoreID:
+            <input type ="number" name ="storeID">
           </label><br><br>
            <label>Title:
             <input type ="text" name ="title">
@@ -60,17 +40,17 @@
              <input type ="time" name ="startTime">
            </label><br><br>
   			   <label>Shift End-Time:
-             <input type ="time" name ="endTime">
+             <input type ="time" name ="stopTime">
            </label><br><br>
   			   <label>Hourly Rate:
              <input type ="number" name ="hourlyRate">
            </label><br><br>
   			   <label>Part-Time?</label>
   				   <select name = "partTime">
-  					        <option value = "TRUE" selected> Yes</option>
-  					        <option value = "FALSE" selected> No</option>
+  					        <option value = "1" selected> Yes</option>
+  					        <option value = "0" selected> No</option>
              </select><br><br>
-            <button onclick="confirmEmp();return false;">Submit</button>
+            <input name ="empClick" id="empClick" value="Submit" type="Submit"/>
              <div id="empTy"></div>
       </fieldset>
 
@@ -80,12 +60,12 @@
           <p>Adding a product will add a product record to the database, and will also add a row to the intersection table
           "products_sales." The primary key of the product record will be a <strong>foreign key</strong> in the product_sales table.</p>
           <label>Product Name:
-            <input type ="text" name ="name">
+            <input type ="text" name ="pName">
           </label><br><br>
           <label>Price
             <input type ="price" name ="price">
           </label><br><br>
-          <button onclick="confirmProd();return false;">Submit</button>
+          <input name ="prodClick" id="prodClick" value="Submit" type="Submit"/>
             <div id="prodTy"></div>
       </fieldset>
 
@@ -94,15 +74,13 @@
         <legend>Add Sale Here:</legend>
           <p>Adding a sale will add a sale record to the database, and will also add a row to the intersection table
             "products_sales." The primary key of the sale record will be a <strong>foreign key</strong> in the product_sales table.</p>
-          <label>Employee ID (who comlpeted the sale):
-            <input type ="id" name ="employeeID">
+          <label>Employee ID (who comlpeted the sale): THIS MUST BE AN ACTUAL EMPLOYEE ID
+            <input type ="id" name ="empID">
           </label><br><br>
-          <label>Customer ID (optional):
-            <select id="customerID">
-              <option value="3">3: James Anderson</option>
-              <option value="12">12: Sally Brands</option>
-              <option value="5">5: Andrew Clos</option>
-              <option value="1">1: Haley Woehrle</option>
+          <label>Customer ID:
+            <select id="sCustomerID">
+              <option value="300350">300350: James Anderson</option>
+    
             </select>
           </label>
           <strong>customer ID will dynamically populate with all customers using a SELECT query on the `Customers` table.</strong><br><br>
@@ -112,16 +90,14 @@
           <label>Purchase Total (including tax):
             <input type ="price" name ="totalPurchase">
           </label><br><br>
-          <label>Number of distinct products:
-            <input type ="number" name ="numProds" id="numProds" value="1">
-          </label><br><br>
-            <button onclick="confirmSal();showProds();return false;">Submit</button>
+          <!--<label>Number of distinct products:
+            <input type ="number" name ="SnumProds" id="numProds" value="1">
+          </label><br><br> -->
+          <input name ="salClick" id="salClick" value="Submit" type="Submit"/>
               <div id="salTy"></div>
       </fieldset>
         <div id="sales_prods"></div>
     </form>
     </div>
     <footer>© Tropical Fish Emporium</footer>
-    <script src="proj3.js"></script>
-  </body>
-</html>
+
