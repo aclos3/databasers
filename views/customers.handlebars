@@ -2,7 +2,7 @@
   <h2>Tropical Fish Emporium</h2>
     <p>Search for and delete customers here.</p>
 
-  <form method = "GET">
+  <form method ="GET" action ="/customers">
     <fieldset>
       <legend>Search for a Customer:</legend>
   			<label>First Name:
@@ -14,9 +14,10 @@
   			<label>E-mail Address:
           <input type ="text" name ="email">
         </label><br><br>
-        <button onclick="return true;">Search</button>
+        <input name ="custSearch" id="custSearch" value="Search" type="submit"/>
     </fieldset>
-    <button onclick="return false;">See All</button>
+  </form>
+    <!--<input name ="custSearch" id="custSearch" value="Submit" type="Submit"/> -->
   
   {{#if custs}}
     <table>

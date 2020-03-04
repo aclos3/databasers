@@ -1,4 +1,7 @@
-
+//$('#custSearch').click(function(e){
+ //   $.post('/searchCust')
+    //e.preventDefault();
+//});
 
 $('#custClick').click(function(e){
     $.post('/assignCust')
