@@ -1,7 +1,7 @@
-//  Author:  Andrew Clos
-//  Date:  12/6/2019
-//  Title: Assignment 6: Database and UI
-//  Description: This project demonstrates some simple backend database and UI interactions by tracking workouts.
+//  Author:  Andrew Clos & Haley Whoehrle
+//  Date:  3/5/2020
+//  Title: Determined Databasers - Tropical Fish Emporium.
+//  Description: This is the server side file for the Tropical Fish Emporium 
 
 var express = require('express');
 var app = express();
@@ -49,25 +49,6 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 
-/*app.post('/searchCust', function (req, res, next) {
-    bClicked = "Search Cust";
-    console.log("search");
-    var context = { title: 'customers' ,path:"customers", };
-    var sqlQuery = "SELECT customerID, email, memberSince, firstName, lastName FROM customers ORDER BY customerID ASC;";
-    mysql.pool.query(sqlQuery, function (err, rows, fields) {
-        if(err) {
-            next(err);
-            return;
-        }
-        var searCust = [];
-        for(var i in rows){
-            searCust.push({"id": rows[i].customerID, "email": rows[i].email, "memberSince": rows[i].memberSince, "fName": rows[i].firstName, "lName": rows[i].lastName});
-        }
-        context.custs = searCust;
-        console.log(JSON.stringify(context));
-        res.send('/customers', context);
-    });
-}); */
 app.post('/assignCust', function (req, res) {
     bClicked = "cust";
 });
