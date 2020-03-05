@@ -58,7 +58,7 @@ INSERT INTO customers VALUES
 (301218,'l.richardson@randatmail.com','Luke','Richardson');
 UNLOCK TABLES;
 
--- SALESS ~~
+-- SALES ~~
 DROP TABLE IF EXISTS sales;
 CREATE TABLE sales (
   saleID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,

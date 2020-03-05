@@ -4,11 +4,17 @@
 //  Description: This project demonstrates some simple backend database and UI interactions by tracking workouts.
 
 var express = require('express');
-var app = express();
-var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
-var Handlebars = require('handlebars');
 var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
+
+var app = express();
+var handlebars = require('express-handlebars').create({
+    defaultLayout: 'main',
+    });
+// app.engine('handlebars'. handlebars.engine);
+var Handlebars = require('handlebars'); // what does this do?
+
+
 var port = 3144;
 var bClicked = "";
 
@@ -68,6 +74,7 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
         res.send('/customers', context);
     });
 }); */
+
 app.post('/assignCust', function (req, res) {
     bClicked = "cust";
 });
@@ -88,7 +95,7 @@ app.get('/', function(req, res, next){
 
 
 //-- CUSTOMERS ~~
-// sele vt customers
+// select customers
 app.get('/customers', function(req, res, next){
     var context = { title: 'customers' ,path:"customers", };
     var fname = req.query.firstName;
