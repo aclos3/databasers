@@ -1,7 +1,7 @@
 -- EMPLOYEES ~~
 DROP TABLE IF EXISTS employees;
 CREATE TABLE employees (
-  employeeID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  employeeID int(11) AUTO_INCREMENT=2000 PRIMARY KEY NOT NULL,
   storeID int(11),
   title varchar(255) NOT NULL,
   startTime time NOT NULL,
@@ -12,13 +12,14 @@ CREATE TABLE employees (
   lastName varchar(255),
   CONSTRAINT fullName UNIQUE (firstName, lastName)
 ) ENGINE = INNODB;
+ALTER TABLE employees AUTO_INCREMENT=2000;
 
 LOCK TABLES employees WRITE;
-INSERT INTO employees VALUES
-(100026,103,'Assistant Manager','9:30','1:00',20.00,0,'Salane','Foster'),
-(100013,101,'Cashier','1:00','5:30',12.50,1,'Silver','Craig'),
-(100111,103,'Fish Specialist','8:00','1:30',14.50,1,'Dave','Murray'),
-(100001,102,'Manager','11:30','4:30',30.00,0,'Freddie','Thompson');
+INSERT INTO employees (storeID, title, startTime, stopTime, hourlyRate, partTime, firstName, lastName) VALUES
+(103,'Assistant Manager','9:30','1:00',20.00,0,'Salane','Foster'),
+(101,'Cashier','1:00','5:30',12.50,1,'Silver','Craig'),
+(103,'Fish Specialist','8:00','1:30',14.50,1,'Dave','Murray'),
+(102,'Manager','11:30','4:30',30.00,0,'Freddie','Thompson');
 UNLOCK TABLES;
 
 -- PRODUCTS ~~
@@ -28,16 +29,17 @@ CREATE TABLE products (
   name varchar(255) NOT NULL,
   price decimal(16,2) NOT NULL
 ) ENGINE = INNODB;
+ALTER TABLE products AUTO_INCREMENT=3000;
 
 LOCK TABLES products WRITE;
-INSERT INTO products VALUES
-(222254,'Fish Food - 1 lb',41.90),
-(222262,'Clownfish',60.02),
-(222232,'10 Gallon Tank',10.19),
-(222288,'Queen Anglefish',53.98),
-(222326,'Megamouth Shark',11.70),
-(222224,'Starfish',35.86),
-(222272,'Scuba Diver Model',34.35);
+INSERT INTO products (name, price) VALUES
+('Fish Food - 1 lb',41.90),
+('Clownfish',60.02),
+('10 Gallon Tank',10.19),
+('Queen Anglefish',53.98),
+('Megamouth Shark',11.70),
+('Starfish',35.86),
+('Scuba Diver Model',34.35);
 UNLOCK TABLES;
 
 -- CUSTOMERS ~~
@@ -45,17 +47,19 @@ DROP TABLE IF EXISTS customers;
 CREATE TABLE customers (
   customerID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   email varchar(255) UNIQUE,
+  memberSince date NOT NULL,
   custFirstName varchar(255),
   custLastName varchar(255),
-  CONSTRAINT fullName UNIQUE (custFirstName, custLastName)
+  CONSTRAINT custFullName UNIQUE (custFirstName, custLastName)
 ) ENGINE = INNODB;
+ALTER TABLE customers AUTO_INCREMENT=1000;
 
 LOCK TABLES customers WRITE;
-INSERT INTO customers VALUES
-(300449,'m.elliott@randatmail.com','Michelle','Elliott'),
-(301254,'r.robinson@randatmail.com','Robert','Robinson'),
-(300471,'a.hunt@randatmail.com','Alina','Hunt'),
-(301218,'l.richardson@randatmail.com','Luke','Richardson');
+INSERT INTO customers (email, memberSince, custFirstName, custLastName) VALUES
+('m.elliott@randatmail.com','2018-2-15','Michelle','Elliott'),
+('r.robinson@randatmail.com','2011-1-21','Robert','Robinson'),
+('a.hunt@randatmail.com','2017-8-30','Alina','Hunt'),
+('l.richardson@randatmail.com','2013-11-14','Luke','Richardson');
 UNLOCK TABLES;
 
 -- SALESS ~~
@@ -69,13 +73,16 @@ CREATE TABLE sales (
   FOREIGN KEY (eID) REFERENCES employees (employeeID),
   FOREIGN KEY (cID) REFERENCES customers (customerID)
 ) ENGINE = INNODB;
+ALTER TABLE sales AUTO_INCREMENT=4000;
 
 LOCK TABLES sales WRITE;
-INSERT INTO sales VALUES
-(444423,100111,301254,'2018-1-11',60.02),
-(444451,100013,300449,'2018-2-6',83.80),
-(444483,100001,300471,'2018-2-22',20.38),
-(444496,100026,301218,'2018-2-26',284.98);
+INSERT INTO sales (eID, cID, transactionDate, totalPurchase) VALUES
+(2002,1001,'2018-1-11',60.02),
+(2001,1000,'2018-2-6',83.80),
+(2001,1003,'2016-12-6',106.79),
+(2003,1002,'2018-2-22',20.38),
+(2002,1002,'2017-8-29',24.99),
+(2000,1003,'2018-2-26',284.98);
 UNLOCK TABLES;
 
 -- SALES_PRODUCTS ~~
@@ -90,11 +97,15 @@ CREATE TABLE sales_products (
 ) ENGINE = INNODB;
 
 LOCK TABLES sales_products WRITE;
-INSERT INTO sales_products VALUES
-(444415,222254,2),
-(444423,222262,1),
-(444483,222232,2),
-(444496,222288,2),
-(444496,222326,9),
-(444496,222224,2);
+INSERT INTO sales_products (sID, pID, number)VALUES
+(4001,3000,2),
+(4000,3001,1),
+(4003,3002,2),
+(4005,3003,2),
+(4005,3004,9),
+(4005,3005,2),
+(4002,3006,1),
+(4002,3000,1),
+(4004,3002,1),
+(4004,3003,2);
 UNLOCK TABLES;
