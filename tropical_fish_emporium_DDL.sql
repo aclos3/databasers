@@ -48,14 +48,14 @@ CREATE TABLE customers (
   customerID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   email varchar(255) UNIQUE,
   memberSince date NOT NULL,
-  custFirstName varchar(255),
-  custLastName varchar(255),
-  CONSTRAINT custFullName UNIQUE (custFirstName, custLastName)
+  firstName varchar(255),
+  lastName varchar(255),
+  CONSTRAINT custFullName UNIQUE (firstName, lastName)
 ) ENGINE = INNODB;
 ALTER TABLE customers AUTO_INCREMENT=1000;
 
 LOCK TABLES customers WRITE;
-INSERT INTO customers (email, memberSince, custFirstName, custLastName) VALUES
+INSERT INTO customers (email, memberSince, firstName, lastName) VALUES
 ('m.elliott@randatmail.com','2018-2-15','Michelle','Elliott'),
 ('r.robinson@randatmail.com','2011-1-21','Robert','Robinson'),
 ('a.hunt@randatmail.com','2017-8-30','Alina','Hunt'),
