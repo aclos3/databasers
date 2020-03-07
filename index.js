@@ -1,7 +1,7 @@
 //  Author:  Andrew Clos & Haley Whoehrle
 //  Date:  3/5/2020
 //  Title: Determined Databasers - Tropical Fish Emporium.
-//  Description: This is the server side file for the Tropical Fish Emporium 
+//  Description: This is the server side file for the Tropical Fish Emporium
 
 var express = require('express');
 var app = express();
@@ -61,6 +61,12 @@ app.post('/assignProd', function (req, res) {
 app.post('/assignSale', function (req, res) {
     bClicked = "sal";
 });
+app.post('/deleteCust', function (req, res) {
+    bClicked = "delCust";
+});
+app.post('/updateEmp', function (req, res) {
+    bClicked = "upEmp";
+});
 
 //populate / display the table.
 app.get('/', function(req, res, next){
@@ -69,12 +75,13 @@ app.get('/', function(req, res, next){
 
 
 //-- CUSTOMERS ~~
-// sele vt customers
+// select customers
 app.get('/customers', function(req, res, next){
     var context = { title: 'customers' ,path:"customers", };
     var fname = req.query.firstName;
     var lname = req.query.lastName;
     var email = req.query.email;
+    var memberSince = req.query.memberSince;
     var sqlQuery = "";
 
     if(fname) {
@@ -83,15 +90,18 @@ app.get('/customers', function(req, res, next){
             sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE firstName = '${fname}' AND lastName = '${lname}' ORDER BY customerID DESC`;
         }
     }
-    else if (lname) {  
+    else if (lname) {
         sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE lastName = '${lname}' ORDER BY customerID DESC`;
     }
-    else{sqlQuery = `SELECT * FROM customers ORDER BY customerID DESC`;}
-
-   if(email) {
+    else{sqlQuery = `SELECT * FROM customers ORDER BY customerID DESC`;
+    }
+    if(email) {
        sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE email = '${email}' ORDER BY customerID DESC`;
-   }
-    
+    }
+    if(memberSince) {
+    sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE memberSince = '${memberSince}' ORDER BY customerID DESC`;
+    }
+
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -105,9 +115,50 @@ app.get('/customers', function(req, res, next){
         res.render('customers', context);
     });
 });
+
+// Delete Customer
+
+app.post('/customers', (req, res, next) => {
+
+    if(bClicked === "delCust"){
+        var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
+        var queryDeleteC = "";
+        var fname = req.query.firstName;
+        var lname = req.query.lastName;
+        var email = req.query.email;
+        var memberSince = req.query.memberSince;
+        mysql.pool.query(queryDeleteC, parametersC, function(err, rows, fields) {
+        if(err) {
+        next(err);
+        return;
+        }
+
+        if(fname) {
+            queryDeleteC = `DELETE FROM customers WHERE firstName = '${fname}' ORDER BY customerID DESC`;
+            if(lname){
+                queryDeleteC = `DELETE FROM customers WHERE firstName = '${fname}' AND lastName = '${lname}' ORDER BY customerID DESC`;
+            }
+        }
+        else if (lname) {
+            queryDeleteC = `DELETE FROM customers WHERE lastName = '${lname}' ORDER BY customerID DESC`;
+        }
+        else{ queryDeleteC = `DELETE FROM customers ORDER BY customerID DESC`;
+        }
+        if(email) {
+           sqlQuery = `DELETE FROM customers WHERE email = '${email}' ORDER BY customerID DESC`;
+        }
+        if(memberSince) {
+            queryDeleteC = `DELETE FROM customers WHERE memberSince = '${memberSince}' ORDER BY customerID DESC`;
+        }
+
+        res.redirect('/customers');
+        });
+    }
+});
+
 // insert new customer, employee, sale or product
 app.post('/manager', (req, res, next) => {
-    
+
     if(bClicked === "cust"){
         var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
         var queryResultsC = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
@@ -155,6 +206,14 @@ app.post('/manager', (req, res, next) => {
     }
 });
 
+////////////////////////////////////////////////////////////////////////////////////////
+
+// Delete Customer
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
 //-- EMPLOYEES ~~
 // select employees
 app.get('/employees', (req, res, next) => {
@@ -176,7 +235,7 @@ app.get('/employees', (req, res, next) => {
             sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' AND title = '${title}' ORDER BY employeeID DESC`;
         }
     }
-    else if (lname) {  
+    else if (lname) {
         sqlQuery = `SELECT * FROM employees WHERE lastName = '${lname}' ORDER BY employeeID DESC`;
         if(title){
             sqlQuery = `SELECT * FROM employees WHERE lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
@@ -187,7 +246,7 @@ app.get('/employees', (req, res, next) => {
     }
     else{sqlQuery = `SELECT * FROM employees ORDER BY employeeID DESC`;}
 
- 
+
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -201,6 +260,56 @@ app.get('/employees', (req, res, next) => {
         res.render('employees', context);
     });
 });
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+// Update employees
+app.get('/employees', (req, res, next) => {
+    var context = { title: 'employees' ,path:"employees", };
+    var fname = req.query.firstName;
+    var lname = req.query.lastName;
+    var title = req.query.title;
+    var sqlQuery = "";
+
+    if(fname) {
+        sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' ORDER BY employeeID DESC`;
+        if(lname){
+            sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' AND lastName = '${lname}' ORDER BY employeeID DESC`;
+            if(title){
+                sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' AND lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
+            }
+        }
+        else if(title){
+            sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' AND title = '${title}' ORDER BY employeeID DESC`;
+        }
+    }
+    else if (lname) {
+        sqlQuery = `SELECT * FROM employees WHERE lastName = '${lname}' ORDER BY employeeID DESC`;
+        if(title){
+            sqlQuery = `SELECT * FROM employees WHERE lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
+        }
+    }
+    else if(title){
+        sqlQuery = `SELECT * FROM employees WHERE title = '${title}' ORDER BY employeeID DESC`;
+    }
+    else{sqlQuery = `SELECT * FROM employees ORDER BY employeeID DESC`;}
+
+
+    mysql.pool.query(sqlQuery, function (err, rows, fields) {
+        if(err) {
+            next(err);
+            return;
+        }
+        var allEmp = [];
+        for(var i in rows){
+            allEmp.push({"id": rows[i].employeeID, "sID": rows[i].storeID, "title": rows[i].title, "sTime": rows[i].startTime, "stTime": rows[i].stopTime, "hRate": rows[i].hourlyRate, "pTime": rows[i].partTime, "fName": rows[i].firstName, "lName": rows[i].lastName});
+        }
+        context.emps = allEmp;
+        res.render('employees', context);
+    });
+});
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 //-- SALES ~~
 // select sales
@@ -228,7 +337,7 @@ app.get('/sales', (req, res, next) => {
             sqlQuery2 = `SELECT * FROM sales_products WHERE sID = '${salID}' ORDER BY sID DESC`;
         }
     }
-    else if (custID) {  
+    else if (custID) {
         sqlQuery = `SELECT * FROM sales WHERE cID = '${custID}' ORDER BY saleID DESC`;
         sqlQuery2 = `SELECT * FROM sales_products JOIN sales ON sales_products.sID = sales.saleID JOIN customers ON sales.cID = customers.customerID WHERE customers.customerID = '${custID}' ORDER BY sID DESC`;
         if(empID){
@@ -241,11 +350,11 @@ app.get('/sales', (req, res, next) => {
         sqlQuery2 = `SELECT * FROM sales_products JOIN sales ON sales_products.sID = sales.saleID WHERE sales.eID = '${empID}' ORDER BY sID DESC`;
     }
     else{
-        sqlQuery = `SELECT * FROM sales ORDER BY saleID DESC`; 
+        sqlQuery = `SELECT * FROM sales ORDER BY saleID DESC`;
         sqlQuery2 = `SELECT * FROM sales_products ORDER BY sID DESC`;
     }
 
- 
+
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -297,7 +406,7 @@ app.get('/products', (req, res, next) => {
             sqlQuery2 = `SELECT * FROM sales_products JOIN products ON sales_products.pID = products.productID WHERE pID = '${prodID}' AND products.price = '${price}' ORDER BY sID DESC`;
         }
     }
-    else if (pName) {  
+    else if (pName) {
         sqlQuery = `SELECT * FROM products WHERE name = '${pName}' ORDER BY productID DESC`;
         sqlQuery2 = `SELECT * FROM sales_products JOIN products ON sales_products.pID = products.productID WHERE products.name = '${pName}' ORDER BY sID DESC`;
         if(price){
@@ -310,10 +419,10 @@ app.get('/products', (req, res, next) => {
         sqlQuery2 = `SELECT * FROM sales_products JOIN products ON sales_products.pID = products.productID WHERE products.price = '${price}' ORDER BY sID DESC`;
     }
     else{
-        sqlQuery = `SELECT * FROM products ORDER BY productID DESC`; 
+        sqlQuery = `SELECT * FROM products ORDER BY productID DESC`;
         sqlQuery2 = `SELECT * FROM sales_products ORDER BY sID DESC`;
     }
-    
+
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -340,9 +449,9 @@ app.get('/products', (req, res, next) => {
 });
 
 app.get('/manager', (req, res, next) => {
-    
+
     res.render('manager', { title: 'manager' ,path:"manager",});
- 
+
 });
 app.get('/changes', (req, res, next) => {
     res.render('changes', { title: 'changes' ,path:"changes",});

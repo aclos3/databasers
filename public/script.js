@@ -19,3 +19,12 @@ $('#salClick').click(function(e){
     //e.preventDefault();
 });
 
+$('#delCustClick').click(function(e){
+    $.post('/deleteCust')
+    //e.preventDefault();
+});
+
+$('#empUpClick').click(function(e){
+    $.post('/updateEmp')
+    //e.preventDefault();
+});

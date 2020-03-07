@@ -4,7 +4,7 @@
 
   <form method ="GET" action ="/customers">
     <fieldset>
-      <legend>Search for a Customer:</legend>
+      <legend>Manage Customers:</legend>
   			<label>First Name:
           <input type ="text" name ="firstName">
         </label><br><br>
@@ -13,12 +13,17 @@
         </label><br><br>
   			<label>E-mail Address:
           <input type ="text" name ="email">
+          </label><br><br>
+  			<label>Membership Start-Date:
+          <input type ="date" name ="memberSince">
         </label><br><br>
         <input name ="custSearch" id="custSearch" value="Search" type="submit"/>
+        <input name ="custAdd" id="custAdd" value="Add" type="submit"/>
+        <input name ="custDelete" id="custDelete" value="Delete" type="submit"/>
     </fieldset>
   </form>
     <!--<input name ="custSearch" id="custSearch" value="Submit" type="Submit"/> -->
-  
+
   {{#if custs}}
     <table>
       <tr>
@@ -44,4 +49,3 @@
 
 </div>
     <footer>© Tropical Fish Emporium</footer>
-

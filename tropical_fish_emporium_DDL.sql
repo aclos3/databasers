@@ -1,7 +1,7 @@
 -- EMPLOYEES ~~
 DROP TABLE IF EXISTS employees;
 CREATE TABLE employees (
-  employeeID int(11) AUTO_INCREMENT=2000 PRIMARY KEY NOT NULL,
+  employeeID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   storeID int(11),
   title varchar(255) NOT NULL,
   startTime time NOT NULL,

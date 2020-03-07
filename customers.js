@@ -3,6 +3,6 @@ module.exports = function(){
     var app = express.Router();
 
     app.get('/customers', function(req, res, next){
-        res.render('customers', { title: 'customers' ,path:"customers",});
+        res.render('customers', { title: 'customers', path:"customers",});
     });
 }
