@@ -264,49 +264,36 @@ app.get('/employees', (req, res, next) => {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 // Update employees
-app.get('/employees', (req, res, next) => {
+app.post('/employees', (req, res, next) => {
     var context = { title: 'employees' ,path:"employees", };
     var fname = req.query.firstName;
     var lname = req.query.lastName;
     var title = req.query.title;
-    var sqlQuery = "";
+    var updateQuery = "";
 
     if(fname) {
-        sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' ORDER BY employeeID DESC`;
+        updateQuery = `UPDATE employees SET firstName = '${fname}' ORDER BY employeeID DESC`;
         if(lname){
-            sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' AND lastName = '${lname}' ORDER BY employeeID DESC`;
+            updateQuery = `UPDATE employees SET firstName = '${fname}' AND lastName = '${lname}' ORDER BY employeeID DESC`;
             if(title){
-                sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' AND lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
+                updateQuery = `UPDATE employees SET firstName = '${fname}' AND lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
             }
         }
         else if(title){
-            sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' AND title = '${title}' ORDER BY employeeID DESC`;
+            updateQuery = `UPDATE employees SET firstName = '${fname}' AND title = '${title}' ORDER BY employeeID DESC`;
         }
     }
     else if (lname) {
-        sqlQuery = `SELECT * FROM employees WHERE lastName = '${lname}' ORDER BY employeeID DESC`;
+        updateQuery = `UPDATE employees SET lastName = '${lname}' ORDER BY employeeID DESC`;
         if(title){
-            sqlQuery = `SELECT * FROM employees WHERE lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
+            updateQuery = `UPDATE employees SET lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
         }
     }
     else if(title){
-        sqlQuery = `SELECT * FROM employees WHERE title = '${title}' ORDER BY employeeID DESC`;
+        updateQuery = `UPDATE employees SET title = '${title}' ORDER BY employeeID DESC`;
     }
-    else{sqlQuery = `SELECT * FROM employees ORDER BY employeeID DESC`;}
+    else{updateQuery = `UPDATE employees SET BY employeeID DESC`;}
 
-
-    mysql.pool.query(sqlQuery, function (err, rows, fields) {
-        if(err) {
-            next(err);
-            return;
-        }
-        var allEmp = [];
-        for(var i in rows){
-            allEmp.push({"id": rows[i].employeeID, "sID": rows[i].storeID, "title": rows[i].title, "sTime": rows[i].startTime, "stTime": rows[i].stopTime, "hRate": rows[i].hourlyRate, "pTime": rows[i].partTime, "fName": rows[i].firstName, "lName": rows[i].lastName});
-        }
-        context.emps = allEmp;
-        res.render('employees', context);
-    });
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////
