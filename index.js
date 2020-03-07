@@ -117,7 +117,6 @@ app.get('/customers', function(req, res, next){
 });
 
 // Delete Customer
-
 app.post('/customers', (req, res, next) => {
 
     if(bClicked === "delCust"){
@@ -206,13 +205,6 @@ app.post('/manager', (req, res, next) => {
     }
 });
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-// Delete Customer
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////
 
 //-- EMPLOYEES ~~
 // select employees
@@ -261,8 +253,6 @@ app.get('/employees', (req, res, next) => {
     });
 });
 
-////////////////////////////////////////////////////////////////////////////////////////
-
 // Update employees
 app.post('/employees', (req, res, next) => {
     var context = { title: 'employees' ,path:"employees", };
@@ -295,8 +285,6 @@ app.post('/employees', (req, res, next) => {
     else{updateQuery = `UPDATE employees SET BY employeeID DESC`;}
 
 });
-
-////////////////////////////////////////////////////////////////////////////////////////
 
 //-- SALES ~~
 // select sales
