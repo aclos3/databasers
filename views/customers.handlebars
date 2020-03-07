@@ -18,10 +18,13 @@
           <input type ="date" name ="memberSince">
         </label><br><br>
         <input name ="custSearch" id="custSearch" value="Search" type="submit"/>
-        <input name ="custAdd" id="custAdd" value="Add" type="submit"/>
-        <input name ="custDelete" id="custDelete" value="Delete" type="submit"/>
+        <!--<input name ="custAdd" id="custAdd" value="Add" type="submit"/> -->
+        
     </fieldset>
   </form>
+  <!--<form method="POST" action = "/customers">
+    <input name ="custDelete" id="custDelete" value="Delete" type="submit"/>
+  </form> -->
     <!--<input name ="custSearch" id="custSearch" value="Submit" type="Submit"/> -->
 
   {{#if custs}}
@@ -36,7 +39,7 @@
       </tr>
       {{#each custs}}
       <tr>
-        <td><input type="checkbox" name="custCheck{{id}}" id="custCheck{{id}}"></td>
+        <td><input type="button" name="custDelete" value="Delete" onClick="delCust({{this.id}})"></td>
         <td>{{id}}</td>
         <td>{{email}}</td>
         <td>{{memberSince}}</td>

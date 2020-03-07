@@ -1,0 +1,66 @@
+.title {
+    font-size: 20px;
+    font-family: Verdana, 'Times New Roman', Times, serif;
+    color: #665192;
+    background-color: rgb(185, 185, 185);
+    padding: 3px 6px;
+}
+
+.title2 {
+  font-size: 20px;
+  font-family: Verdana, 'Times New Roman', Times, serif;
+  color: #2b8345;
+}
+
+fieldset {
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0.35em;
+    padding-bottom: 0.625em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    /*border: 2px groove (internal value); */
+  }
+
+#welcome {
+    font-size: 24px;
+    font-family: Verdana, 'Times New Roman', Times, serif;
+    color: #2b8345;
+}
+
+#welcomeP {
+    font-size: 16px;
+    font-family: Verdana, 'Times New Roman', Times, serif;
+    color: #2b8345;
+}
+
+.defaultText {
+    font-size: 16px;
+    font-family: Verdana, 'Times New Roman', Times, serif;
+    color: #665192; 
+}
+
+
+.container {
+    width: 300px;
+    clear: both;
+  }
+  
+  .container input {
+    width: 100%;
+    clear: both;
+  }
+  
+  table, td, th {
+    border: 1px solid #665192;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 80%;
+  }
+
+  th {
+    height: 70px;
+  }

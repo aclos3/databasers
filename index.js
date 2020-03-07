@@ -64,6 +64,9 @@ app.post('/assignSale', function (req, res) {
 app.post('/deleteCust', function (req, res) {
     bClicked = "delCust";
 });
+app.post('/searchCust', function (req, res) {
+    bClicked = "searCust";
+});
 app.post('/updateEmp', function (req, res) {
     bClicked = "upEmp";
 });
@@ -84,6 +87,7 @@ app.get('/customers', function(req, res, next){
     var memberSince = req.query.memberSince;
     var sqlQuery = "";
 
+
     if(fname) {
         sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE firstName = '${fname}' ORDER BY customerID DESC`;
         if(lname){
@@ -96,12 +100,14 @@ app.get('/customers', function(req, res, next){
     else{sqlQuery = `SELECT * FROM customers ORDER BY customerID DESC`;
     }
     if(email) {
-       sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE email = '${email}' ORDER BY customerID DESC`;
+        sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE email = '${email}' ORDER BY customerID DESC`;
     }
     if(memberSince) {
     sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE memberSince = '${memberSince}' ORDER BY customerID DESC`;
     }
+    
 
+    
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -120,7 +126,9 @@ app.get('/customers', function(req, res, next){
 app.post('/customers', (req, res, next) => {
 
     if(bClicked === "delCust"){
-        var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
+
+        console.log("delCUst");
+        /*var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
         var queryDeleteC = "";
         var fname = req.query.firstName;
         var lname = req.query.lastName;
@@ -151,7 +159,7 @@ app.post('/customers', (req, res, next) => {
         }
 
         res.redirect('/customers');
-        });
+        }); */
     }
 });
 

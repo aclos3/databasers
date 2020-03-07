@@ -1,4 +1,5 @@
 
+//MANAGER PAGE
 $('#custClick').click(function(e){
     $.post('/assignCust')
     //e.preventDefault();
@@ -19,11 +20,20 @@ $('#salClick').click(function(e){
     //e.preventDefault();
 });
 
-$('#delCustClick').click(function(e){
+
+//CUSTOMER
+$('#custDelete').click(function(e){
     $.post('/deleteCust')
     //e.preventDefault();
 });
 
+$('#custSearch').click(function(e){
+    $.post('/searchCust')
+    //e.preventDefault();
+});
+
+
+//EMPLOYEE
 $('#empUpClick').click(function(e){
     $.post('/updateEmp')
     //e.preventDefault();
