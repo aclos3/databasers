@@ -105,9 +105,9 @@ app.get('/customers', function(req, res, next){
     if(memberSince) {
     sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE memberSince = '${memberSince}' ORDER BY customerID DESC`;
     }
-    
 
-    
+
+
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -123,44 +123,25 @@ app.get('/customers', function(req, res, next){
 });
 
 // Delete Customer
-app.post('/customers', (req, res, next) => {
+app.post('/customerDelete', (req, res, next) => {
+    console.log(req.body.id);
 
-    if(bClicked === "delCust"){
+    var sqlQuery = `DELETE FROM customers WHERE customerID = '${req.body.id}'`;
 
         console.log("delCUst");
-        /*var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
-        var queryDeleteC = "";
-        var fname = req.query.firstName;
-        var lname = req.query.lastName;
-        var email = req.query.email;
-        var memberSince = req.query.memberSince;
-        mysql.pool.query(queryDeleteC, parametersC, function(err, rows, fields) {
-        if(err) {
-        next(err);
-        return;
-        }
-
-        if(fname) {
-            queryDeleteC = `DELETE FROM customers WHERE firstName = '${fname}' ORDER BY customerID DESC`;
-            if(lname){
-                queryDeleteC = `DELETE FROM customers WHERE firstName = '${fname}' AND lastName = '${lname}' ORDER BY customerID DESC`;
+        mysql.pool.query(sqlQuery, function (err, rows, fields) {
+            if(err) {
+                next(err);
+                return;
             }
-        }
-        else if (lname) {
-            queryDeleteC = `DELETE FROM customers WHERE lastName = '${lname}' ORDER BY customerID DESC`;
-        }
-        else{ queryDeleteC = `DELETE FROM customers ORDER BY customerID DESC`;
-        }
-        if(email) {
-           sqlQuery = `DELETE FROM customers WHERE email = '${email}' ORDER BY customerID DESC`;
-        }
-        if(memberSince) {
-            queryDeleteC = `DELETE FROM customers WHERE memberSince = '${memberSince}' ORDER BY customerID DESC`;
-        }
+            var allCust = [];
+            for(var i in rows){
+                allCust.push({"id": rows[i].customerID, "email": rows[i].email, "memberSince": rows[i].memberSince, "fName": rows[i].firstName, "lName": rows[i].lastName});
+            }
+            context.custs = allCust;
+            res.render('customers', context);
+        });
 
-        res.redirect('/customers');
-        }); */
-    }
 });
 
 // insert new customer, employee, sale or product

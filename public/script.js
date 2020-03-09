@@ -1,4 +1,3 @@
-
 //MANAGER PAGE
 $('#custClick').click(function(e){
     $.post('/assignCust')
@@ -31,7 +30,11 @@ $('#custSearch').click(function(e){
     $.post('/searchCust')
     //e.preventDefault();
 });
+function delCust(id) {
+    console.log("delCUst",id);
+    $.post('/customerDelete',{"id" :  id})
 
+};
 
 //EMPLOYEE
 $('#empUpClick').click(function(e){

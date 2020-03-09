@@ -4,12 +4,12 @@
 //  Description: This project demonstrates some simple backend database and UI interactions by tracking workouts.
 
 //listen for the submit button being clicked, then run the following function
-document.getElementById('submitEx').addEventListener('click',function(event){     
-    
+document.getElementById('submitEx').addEventListener('click',function(event){
+
     //New request is made that will take paremeters from data entered by the user (in the exerciseEntry)
     //and then will build a string of these parameters that will later be parsed and entered in to the database.
-	var submitEx = document.getElementById("exerciseEntry");            
-    
+	var submitEx = document.getElementById("exerciseEntry");
+
     var req = new XMLHttpRequest();
 	//build the string
 	var paramEntry = "exerciseType="+submitEx.elements.exerciseType.value+"&reps="+submitEx.elements.reps.value+
@@ -17,26 +17,26 @@ document.getElementById('submitEx').addEventListener('click',function(event){
 
 	//perform the asynchronous GET request.
 	req.open("GET", "/insert?" + paramEntry, true);
-	req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');  
-	
-	//add to the table after loading  
-	req.addEventListener('load', function(){                          
+	req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+
+	//add to the table after loading
+	req.addEventListener('load', function(){
 		if(req.status >= 200 && req.status < 400){
-			
-			//variables for JSON response row information, and table from the document.                                               
-			var response = JSON.parse(req.responseText);            
+
+			//variables for JSON response row information, and table from the document.
+			var response = JSON.parse(req.responseText);
 			var id = response.workouts;
 			var table = document.getElementById("exerciseTable");
-			
-			//adding a row at the end   
-			var addRow = table.insertRow(-1);                          
-			
+
+			//adding a row at the end
+			var addRow = table.insertRow(-1);
+
 			//the following section will populate the rows including the "hidden values"
 			//NAME
-			var name = document.createElement('td');                
-			name.textContent = submitEx.elements.exerciseType.value; 
+			var name = document.createElement('td');
+			name.textContent = submitEx.elements.exerciseType.value;
 			addRow.appendChild(name);
-			
+
 			//REPS
 			var repetitions = document.createElement('td');
 			repetitions.textContent = submitEx.elements.reps.value;
@@ -48,10 +48,10 @@ document.getElementById('submitEx').addEventListener('click',function(event){
 			addRow.appendChild(tonnage);
 
 			//DATE
-            var dte = document.createElement('td');                      
+            var dte = document.createElement('td');
 			dte.textContent = submitEx.elements.date.value;
 			addRow.appendChild(dte);
-			
+
 			//UNITS
 			var units = document.createElement('td');
 			units.textContent = submitEx.elements.unit.value;
@@ -66,7 +66,7 @@ document.getElementById('submitEx').addEventListener('click',function(event){
 
 			upConnect.setAttribute('href', '/refreshExercise?id=' + id);
 			uButton.setAttributes({'type':'button', 'value':'Update Exercise'});
-			
+
 			upConnect.appendChild(uButton);
 			updte.appendChild(upConnect);
 			addRow.appendChild(updte);
@@ -74,31 +74,31 @@ document.getElementById('submitEx').addEventListener('click',function(event){
 			//DELETE
    			//establish variables and then set attributes to "build" the button.  I wanted to do this
 			// without using "innerHTML"
-			var del = document.createElement('td');                 
-			var dButton = document.createElement('input');    
-			var hide = document.createElement('input'); 
-			
+			var del = document.createElement('td');
+			var dButton = document.createElement('input');
+			var hide = document.createElement('input');
+
 			dButton.setAttributes({'type':'button', 'name':'delete', 'value':'Delete', 'onClick':'delRow("exerciseTable",' + id +')'});
 			hide.setAttributes({'type':'hidden','id':'delete' + id});
-			
-			del.appendChild(dButton);                           
+
+			del.appendChild(dButton);
 			del.appendChild(hide);
-			addRow.appendChild(del);                                   
+			addRow.appendChild(del);
 
 		}
 		else {
 	    	console.log("An error has occurred!");
 		}
 	});
-	req.send("/insert?" + paramEntry);                              
-	event.preventDefault();                                
+	req.send("/insert?" + paramEntry);
+	event.preventDefault();
 });
 
 //this function deletes a row from the table.
-function delRow(tableId, id){                                
-	
+function delRow(tableId, id){
+
 	//set up variables for the table and the table size (number of rows)
-	var tble = document.getElementById(tableId);       
+	var tble = document.getElementById(tableId);
 	var tSize = tble.rows.length;
 	var r = "";
 	var rowContents = "";
@@ -107,34 +107,34 @@ function delRow(tableId, id){
 
 	//loop through each row and look for the "delete" flag.
 	for(var i = 0; i < tSize - 1; i++)
-	{                           
+	{
 		r = tble.rows[i+1];
-		rowContents = r.getElementsByTagName("td");		   
-		toDelete = rowContents[rowContents.length - 1];		        
-		
+		rowContents = r.getElementsByTagName("td");
+		toDelete = rowContents[rowContents.length - 1];
+
 		//if the row's hidden "delete me" item is flagged, the row will get deleted.
 		if(toDelete.children[1].id === del)
-		{         
+		{
 			tble.deleteRow(i+1);
 		}
 	}
     //Make the request to delete the data
 	var req = new XMLHttpRequest();
-	
+
 	//asynchronous GET request
-	req.open("GET", "/delete?id=" + id, true);              
+	req.open("GET", "/delete?id=" + id, true);
 	req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 
 	req.addEventListener("load",function(){
 		if(req.status >= 200 && req.status < 400)
-		{          
+		{
 	    	console.log('The delete was successful.');
-		} else 
+		} else
 		{
 		    console.log('An error has occurred during delete.');
 		}
 	});
-	req.send("/delete?id=" + id);                          
+	req.send("/delete?id=" + id);
 }
 
 //source cited for extending Element prototype
