@@ -1,6 +1,6 @@
 <div style="padding-left:16px">
   <h2>Tropical Fish Emporium</h2>
-  <p>Search for, UPDATE and delete employees here.</p>
+  <p>Search for employees here.</p>
 
   <form method ="GET" action ="/employees">
     <fieldset>
@@ -14,7 +14,7 @@
         <label>Title:
           <input type ="text" name ="title">
         </label><br><br>
-        <label>Shift Start-Time:
+        <!--<label>Shift Start-Time:
           <input type ="time" name ="startTime" disabled>
         </label><br><br>
         <label>Shift End-Time:
@@ -28,7 +28,7 @@
                   <option value = "TRUE" selected> Yes</option>
                   <option value = "FALSE" selected> No</option>
           </select>
-        <br><br>
+        <br><br> -->
       <input name ="empSearch" id="empSearch" value="Search" type="submit"/>
     </fieldset>
   </form>
@@ -36,7 +36,7 @@
   {{#if emps}}
   <table>
   <tr>
-    <th>select</th>
+    <th>Update</th>
     <th class="pk">employeeID</th>
     <th>firstName</th>
     <th>lastName</th>
@@ -49,7 +49,7 @@
   </tr>
   {{#each emps}}
   <tr>
-    <td><input type="checkbox" name="empCheck{{id}}" id="empCheck{{id}}"></td>
+    <td><input type="button" name="update" value="Update" onClick="upEmp({{id}});"></td>
     <td>{{id}}</td>
     <td>{{fName}}</td>
     <td>{{lName}}</td>
@@ -62,39 +62,9 @@
   </tr>
   {{/each}}
   </table>
+  {{else}}
+    <div class="warnText">No Employees Returned<br><br></div>
   {{/if}}
-  <fieldset>
-    <legend>Update Selected Employee Details:</legend>
-      <label>First Name:
-        <input type ="text" name ="firstName">
-      </label><br><br>
-      <label>Last Name:
-        <input type ="text" name ="lastName">
-      </label><br><br>
-      <label>Title:
-        <input type ="text" name ="title">
-      </label><br><br>
-      <label>Shift Start-Time:
-        <input type ="time" name ="startTime">
-      </label><br><br>
-      <label>Shift End-Time:
-        <input type ="time" name ="endTime">
-      </label><br><br>
-      <label>Hourly Rate:
-        <input type ="number" name ="hourlyRate">
-      </label><br><br>
-      <label>Part-Time? </label>
-        <select name = "partTime">
-          <option value = "TRUE" selected> Yes</option>
-          <option value = "FALSE" selected> No</option>
-        </select><br><br>
-      <label>Store Location: </label>
-        <select name = "classDropDown">
-          <option value = "Bend" selected>Bend, OR</option>
-          <option value = "Portland" selected>Portland, OR</option>
-          <option value = "Vancouver" selected>Vancouver, WA</option>
-        </select>
-      <p><button type="updateEmployee">Update Selected Employee</button></p>
-  </fieldset>
+  
 </div>
 <footer>© Tropical Fish Emporium</footer>

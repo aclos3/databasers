@@ -1,5 +1,5 @@
 //  Author:  Andrew Clos & Haley Whoehrle
-//  Date:  3/5/2020
+//  Date:  3/9/2020
 //  Title: Determined Databasers - Tropical Fish Emporium.
 //  Description: This is the server side file for the Tropical Fish Emporium
 
@@ -11,6 +11,7 @@ var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
 var port = 3144;
 var bClicked = "";
+var updating = "";
 
 //set port to my default for the quarter (last four of student ID)
 app.set('port', port);
@@ -21,6 +22,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
+//Create a helper for an ifConditon
+//source: https://stackoverflow.com/questions/38111916/how-to-use-handlebars-conditional-helpers
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
     switch (operator) {
@@ -49,6 +52,7 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 
+//simple fuctions to catch which button was clicked and assign a global variable.
 app.post('/assignCust', function (req, res) {
     bClicked = "cust";
 });
@@ -71,11 +75,10 @@ app.post('/updateEmp', function (req, res) {
     bClicked = "upEmp";
 });
 
-//populate / display the table.
+//render the home page.
 app.get('/', function(req, res, next){
     res.render('index', { title: 'index' ,path:"",});
 });
-
 
 //-- CUSTOMERS ~~
 // select customers
@@ -86,8 +89,7 @@ app.get('/customers', function(req, res, next){
     var email = req.query.email;
     var memberSince = req.query.memberSince;
     var sqlQuery = "";
-
-
+    //build the search logic.  Can search using 0, some or all of the fields.  Blank fields return all results/are ignored.
     if(fname) {
         sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE firstName = '${fname}' ORDER BY customerID DESC`;
         if(lname){
@@ -106,8 +108,6 @@ app.get('/customers', function(req, res, next){
     sqlQuery = `SELECT customerID, email, memberSince, firstName, lastName FROM customers WHERE memberSince = '${memberSince}' ORDER BY customerID DESC`;
     }
 
-
-
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -123,77 +123,15 @@ app.get('/customers', function(req, res, next){
 });
 
 // Delete Customer
-app.post('/customerDelete', (req, res, next) => {
-    console.log(req.body.id);
-
-    var sqlQuery = `DELETE FROM customers WHERE customerID = '${req.body.id}'`;
-
-        console.log("delCUst");
-        mysql.pool.query(sqlQuery, function (err, rows, fields) {
-            if(err) {
-                next(err);
-                return;
-            }
-            var allCust = [];
-            for(var i in rows){
-                allCust.push({"id": rows[i].customerID, "email": rows[i].email, "memberSince": rows[i].memberSince, "fName": rows[i].firstName, "lName": rows[i].lastName});
-            }
-            context.custs = allCust;
-            res.render('customers', context);
-        });
-
-});
-
-// insert new customer, employee, sale or product
-app.post('/manager', (req, res, next) => {
-
-    if(bClicked === "cust"){
-        var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
-        var queryResultsC = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
-        mysql.pool.query(queryResultsC, parametersC, function(err, rows, fields) {
+app.get('/customerDelete', function(req, res, next) {
+    var sqlQuery = `DELETE FROM customers WHERE customerID = '${req.query.id}'`;
+    mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
-        next(err);
-        return;
+            next(err);
+            return;
         }
-        res.redirect('/manager');
-        });
-    }
-    if (bClicked === "emp"){
-        var parametersE = [req.body.storeID, req.body.title, req.body.startTime, req.body.stopTime, req.body.hourlyRate,
-            req.body.partTime, req.body.empFirstName, req.body.empLastName];
-        var queryResultsE = "INSERT INTO employees (storeID, title, startTime, stopTime, hourlyRate, partTime, firstName, lastName) VALUES (?,?,?,?,?,?,?,?)";
-        mysql.pool.query(queryResultsE, parametersE, function(err, rows, fields) {
-            if(err) {
-                next(err);
-                return;
-            }
-            res.redirect('/manager');
-            });
-    }
-    if (bClicked === "sal"){
-        var parametersS = [req.body.empID, '300350', req.body.transactionDate, req.body.totalPurchase];
-        var queryResultsS = "INSERT INTO sales (eID, cID, transactionDate, totalPurchase) VALUES (?,?,?,?)";
-        mysql.pool.query(queryResultsS, parametersS, function(err, rows, fields) {
-          if(err) {
-            next(err);
-            return;
-          }
-          res.redirect('/manager');
-        });
-    }
-    if (bClicked === "prod") {
-        var parametersP = [req.body.pName, req.body.price];
-        var queryResultsP = "INSERT INTO products (name, price) VALUES (?,?)";
-        mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
-          if(err) {
-            next(err);
-            return;
-          }
-          res.redirect('/manager');
-        });
-    }
+    });
 });
-
 
 //-- EMPLOYEES ~~
 // select employees
@@ -203,7 +141,7 @@ app.get('/employees', (req, res, next) => {
     var lname = req.query.lastName;
     var title = req.query.title;
     var sqlQuery = "";
-
+    //build the search logic.  Can search using 0, some or all of the fields.  Blank fields return all results.
     if(fname) {
         sqlQuery = `SELECT * FROM employees WHERE firstName = '${fname}' ORDER BY employeeID DESC`;
         if(lname){
@@ -227,7 +165,6 @@ app.get('/employees', (req, res, next) => {
     }
     else{sqlQuery = `SELECT * FROM employees ORDER BY employeeID DESC`;}
 
-
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -242,36 +179,50 @@ app.get('/employees', (req, res, next) => {
     });
 });
 
-// Update employees
-app.post('/employees', (req, res, next) => {
-    var context = { title: 'employees' ,path:"employees", };
-    var fname = req.query.firstName;
-    var lname = req.query.lastName;
-    var title = req.query.title;
-    var updateQuery = "";
+// Load update page with selected employee information
+app.get('/upEmp', function(req, res, next) {
 
-    if(fname) {
-        updateQuery = `UPDATE employees SET firstName = '${fname}' ORDER BY employeeID DESC`;
-        if(lname){
-            updateQuery = `UPDATE employees SET firstName = '${fname}' AND lastName = '${lname}' ORDER BY employeeID DESC`;
-            if(title){
-                updateQuery = `UPDATE employees SET firstName = '${fname}' AND lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
+    var sqlQuery = "";
+    if(req.query.id || updating){
+        if(req.query.id) {
+            updating = req.query.id;
+        }
+        sqlQuery = "SELECT * FROM employees WHERE employeeID = " + updating;
+    }
+    else {
+        sqlQuery = "SELECT * FROM employees";
+    }
+    mysql.pool.query(sqlQuery, function (err, rows) {
+        var context = {};
+        if(err) {
+            next(err);
+            return;
+        }
+        var upEmp = [];  //we don't have to use a loop here, but in case multiple employee updates are implemented later, we left the loop in.
+        for(var i in rows){
+            if(i > 0 ) {
+                console.log("Warning, Array has more than one element. This is an error, please reload page");
             }
+            upEmp.unshift({"id": rows[i].employeeID, "store": rows[i].storeID, "title": rows[i].title, "sTime": rows[i].startTime, "stTime": rows[i].stopTime, "rate": rows[i].hourlyRate, "pTime": rows[i].partTime, "fName": rows[i].firstName, "lName": rows[i].lastName});
         }
-        else if(title){
-            updateQuery = `UPDATE employees SET firstName = '${fname}' AND title = '${title}' ORDER BY employeeID DESC`;
+        context.emps = upEmp;
+        res.render('upEmp', context);
+    });
+});
+
+// Update the employee info in the database
+app.post('/upEmp', (req, res, next) => {
+    var sqlQuery = `UPDATE employees SET firstName = '${req.body.firstName}', lastName = '${req.body.lastName}', storeID = '${req.body.storeID}', title = '${req.body.title}', startTime = '${req.body.startTime}', stopTime = '${req.body.endTime}', hourlyRate = '${req.body.hourlyRate}', partTime = '${req.body.partTime}' WHERE employeeID = '${req.body.id}'`;
+    
+    if(req.body.id) {
+        mysql.pool.query(sqlQuery, function(err, rows, fields) {
+            if(err) {
+            next(err);
+            return;
         }
+        res.redirect('/employees');
+        }); 
     }
-    else if (lname) {
-        updateQuery = `UPDATE employees SET lastName = '${lname}' ORDER BY employeeID DESC`;
-        if(title){
-            updateQuery = `UPDATE employees SET lastName = '${lname}' AND title = '${title}' ORDER BY employeeID DESC`;
-        }
-    }
-    else if(title){
-        updateQuery = `UPDATE employees SET title = '${title}' ORDER BY employeeID DESC`;
-    }
-    else{updateQuery = `UPDATE employees SET BY employeeID DESC`;}
 
 });
 
@@ -284,7 +235,7 @@ app.get('/sales', (req, res, next) => {
     var empID = req.query.employeeID;
     var sqlQuery = "";
     var sqlQuery2 = "";
-
+    //build the search logic.  Can search using 0, some or all of the fields.  Blank fields return all results.
     if(salID) {
         sqlQuery = `SELECT * FROM sales WHERE saleID = '${salID}' ORDER BY saleID DESC`;
         sqlQuery2 = `SELECT * FROM sales_products WHERE sID = '${salID}' ORDER BY sID DESC`;
@@ -317,7 +268,6 @@ app.get('/sales', (req, res, next) => {
         sqlQuery = `SELECT * FROM sales ORDER BY saleID DESC`;
         sqlQuery2 = `SELECT * FROM sales_products ORDER BY sID DESC`;
     }
-
 
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
@@ -353,7 +303,7 @@ app.get('/products', (req, res, next) => {
     var price = req.query.price;
     var sqlQuery = "";
     var sqlQuery2 = "";
-
+    //build the search logic.  Can search using 0, some or all of the fields.  Blank fields return all results.
     if(prodID) {
         sqlQuery = `SELECT * FROM products WHERE productID = '${prodID}' ORDER BY productID DESC`;
         sqlQuery2 = `SELECT * FROM sales_products WHERE pID = '${prodID}' ORDER BY sID DESC`;
@@ -412,11 +362,89 @@ app.get('/products', (req, res, next) => {
     });
 });
 
-app.get('/manager', (req, res, next) => {
+//MANAGER 
+//render manager page
+app.get('/manager', function(req, res, next){
+    var context = { title: 'manager' ,path:"manager", };
+    var sqlQuery = `SELECT * FROM customers ORDER BY customerID ASC`;
+    var sqlQuery2 = `SELECT * FROM employees ORDER BY employeeID ASC`;
 
-    res.render('manager', { title: 'manager' ,path:"manager",});
-
+    mysql.pool.query(sqlQuery, function (err, rows, fields) {
+        if(err) {
+            next(err);
+            return;
+        }
+        var allCust2 = [];
+        for(var i in rows){
+            allCust2.push({"id": rows[i].customerID, "fName": rows[i].firstName, "lName": rows[i].lastName});
+        }
+        mysql.pool.query(sqlQuery2, function (err, rows2, fields) {
+            if(err) {
+                next(err);
+                return;
+            }
+            var allEmp2 = [];
+            for(var j in rows2){
+            allEmp2.push({"id": rows2[j].employeeID, "fName": rows2[j].firstName, "lName": rows2[j].lastName});
+            }
+            context.emps = allEmp2;
+            context.custs = allCust2;
+            res.render('manager', context);
+        });
+    });
 });
+
+//INSERT new customer, employee, sale or product
+app.post('/manager', (req, res, next) => {
+
+    if(bClicked === "cust"){
+        var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
+        var queryResultsC = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
+        mysql.pool.query(queryResultsC, parametersC, function(err, rows, fields) {
+            if(err) {
+            next(err);
+            return;
+        }
+        res.redirect('/manager');
+        });
+    }
+    if (bClicked === "emp"){
+        var parametersE = [req.body.storeID, req.body.title, req.body.startTime, req.body.stopTime, req.body.hourlyRate,
+            req.body.partTime, req.body.empFirstName, req.body.empLastName];
+        var queryResultsE = "INSERT INTO employees (storeID, title, startTime, stopTime, hourlyRate, partTime, firstName, lastName) VALUES (?,?,?,?,?,?,?,?)";
+        mysql.pool.query(queryResultsE, parametersE, function(err, rows, fields) {
+            if(err) {
+                next(err);
+                return;
+            }
+            res.redirect('/manager');
+            });
+    }
+    if (bClicked === "sal"){
+        var parametersS = [req.body.empID, req.body.custID, req.body.transactionDate, req.body.totalPurchase];
+        var queryResultsS = "INSERT INTO sales (eID, cID, transactionDate, totalPurchase) VALUES (?,?,?,?)";
+        mysql.pool.query(queryResultsS, parametersS, function(err, rows, fields) {
+          if(err) {
+            next(err);
+            return;
+          }
+          res.redirect('/manager');
+        });
+    }
+    if (bClicked === "prod") {
+        var parametersP = [req.body.pName, req.body.price];
+        var queryResultsP = "INSERT INTO products (name, price) VALUES (?,?)";
+        mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
+          if(err) {
+            next(err);
+            return;
+          }
+          res.redirect('/manager');
+        });
+    }
+});
+
+//CHANGE LOG
 app.get('/changes', (req, res, next) => {
     res.render('changes', { title: 'changes' ,path:"changes",});
 });

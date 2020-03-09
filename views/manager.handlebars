@@ -1,102 +1,111 @@
     <div style="padding-left:16px">
       <h2>Tropical Fish Emporium</h2>
-        <p>Here customers, employees, sales, and products can be added to the database.</p>
-          <form method = "post">
+      <p>Here customers, employees, sales, and products can be added to the database.</p>
+      <form method = "post">
 <!--CUSTOMERS-->
-      <fieldset>
-        <legend>Add Customer Here:</legend>
-          <label>First Name:
-            <input type ="text" name ="custFirstName">
-          </label><br><br>
-          <label>Last Name:
-            <input type ="text" name ="custLastName">
-          </label><br><br>
-          <label>E-mail Address:
-            <input type ="text" name ="email">
-          </label><br><br>
-          <label>Member Since:
-            <input type ="date" name ="memberSince">
-          </label><br><br>
-          <input name ="custClick" id="custClick" value="Submit" type="Submit"/>
-            <div id="custTy"></div>
-      </fieldset>
+        <fieldset>
+          <legend>Add Customer Here:</legend>
+            <label>First Name:
+              <input type ="text" name ="custFirstName">
+            </label><br><br>
+            <label>Last Name:
+              <input type ="text" name ="custLastName">
+            </label><br><br>
+            <label>E-mail Address:
+              <input type ="text" name ="email">
+            </label><br><br>
+            <label>Member Since:
+              <input type ="date" name ="memberSince">
+            </label><br><br>
+            <input name ="custClick" id="custClick" value="Submit" type="Submit"/>
+              <div id="custTy"></div>
+        </fieldset>
 
-<!--EMPLOYEES-->
-      <fieldset>
-        <legend>Add Employee Here:</legend>
-  			   <label>First Name:
-             <input type ="text" name ="empFirstName">
-           </label><br><br>
-  			   <label>Last Name:
-             <input type ="text" name ="empLastName">
-           </label><br><br>
-           <label>StoreID:
-            <input type ="number" name ="storeID">
-          </label><br><br>
-           <label>Title:
-            <input type ="text" name ="title">
-          </label><br><br>
-  			   <label>Shift Start-Time:
-             <input type ="time" name ="startTime">
-           </label><br><br>
-  			   <label>Shift End-Time:
-             <input type ="time" name ="stopTime">
-           </label><br><br>
-  			   <label>Hourly Rate:
-             <input type ="number" name ="hourlyRate">
-           </label><br><br>
-  			   <label>Part-Time?</label>
-  				   <select name = "partTime">
-  					        <option value = "1" selected> Yes</option>
-  					        <option value = "0" selected> No</option>
-             </select><br><br>
-            <input name ="empClick" id="empClick" value="Submit" type="Submit"/>
-             <div id="empTy"></div>
-      </fieldset>
+  <!--EMPLOYEES-->
+        <fieldset>
+          <legend>Add Employee Here:</legend>
+            <label>First Name:
+              <input type ="text" name ="empFirstName">
+            </label><br><br>
+            <label>Last Name:
+              <input type ="text" name ="empLastName">
+            </label><br><br>
+            <label>StoreID:
+              <input type ="number" name ="storeID">
+            </label><br><br>
+            <label>Title:
+              <input type ="text" name ="title">
+            </label><br><br>
+            <label>Shift Start-Time:
+              <input type ="time" name ="startTime">
+            </label><br><br>
+            <label>Shift End-Time:
+              <input type ="time" name ="stopTime">
+            </label><br><br>
+            <label>Hourly Rate:
+              <input type ="number" name ="hourlyRate">
+            </label><br><br>
+            <label>Part-Time?</label>
+              <select name = "partTime">
+                      <option value = "1" selected> Yes</option>
+                      <option value = "0" selected> No</option>
+              </select><br><br>
+              <input name ="empClick" id="empClick" value="Submit" type="Submit"/>
+              <div id="empTy"></div>
+        </fieldset>
 
-<!--PRODUCTS-->
-      <fieldset>
-        <legend>Add Product Here:</legend>
-          <p>Adding a product will add a product record to the database, and will also add a row to the intersection table
-          "products_sales." The primary key of the product record will be a <strong>foreign key</strong> in the product_sales table.</p>
-          <label>Product Name:
-            <input type ="text" name ="pName">
-          </label><br><br>
-          <label>Price
-            <input type ="price" name ="price">
-          </label><br><br>
-          <input name ="prodClick" id="prodClick" value="Submit" type="Submit"/>
-            <div id="prodTy"></div>
-      </fieldset>
+  <!--PRODUCTS-->
+        <fieldset>
+          <legend>Add Product Here:</legend>
+            <p>Adding a product will add a product record to the database, and will also add a row to the intersection table
+            "products_sales." The primary key of the product record will be a <strong>foreign key</strong> in the product_sales table.</p>
+            <label>Product Name:
+              <input type ="text" name ="pName">
+            </label><br><br>
+            <label>Price
+              <input type ="price" name ="price">
+            </label><br><br>
+            <input name ="prodClick" id="prodClick" value="Submit" type="Submit"/>
+              <div id="prodTy"></div>
+        </fieldset>
 
-<!--SALES-->
-      <fieldset>
-        <legend>Add Sale Here:</legend>
-          <p>Adding a sale will add a sale record to the database, and will also add a row to the intersection table
-            "products_sales." The primary key of the sale record will be a <strong>foreign key</strong> in the product_sales table.</p>
-          <label>Employee ID (who comlpeted the sale): THIS MUST BE AN ACTUAL EMPLOYEE ID
-            <input type ="id" name ="empID">
-          </label><br><br>
-          <label>Customer ID:
-            <select id="sCustomerID">
-              <option value="300350">300350: James Anderson</option>
-    
-            </select>
-          </label>
-          <strong>customer ID will dynamically populate with all customers using a SELECT query on the `Customers` table.</strong><br><br>
-          <label>Transaction Date:
-            <input type ="date" name ="transactionDate">
-          </label><br><br>
-          <label>Purchase Total (including tax):
-            <input type ="price" name ="totalPurchase">
-          </label><br><br>
-          <!--<label>Number of distinct products:
-            <input type ="number" name ="SnumProds" id="numProds" value="1">
-          </label><br><br> -->
-          <input name ="salClick" id="salClick" value="Submit" type="Submit"/>
-              <div id="salTy"></div>
-      </fieldset>
-        <div id="sales_prods"></div>
+  <!--SALES-->
+        <fieldset>
+          <legend>Add Sale Here:</legend>
+            <p>Adding a sale will add a sale record to the database, and will also add a row to the intersection table
+              "products_sales." The primary key of the sale record will be a <strong>foreign key</strong> in the product_sales table.</p>
+            <label>Employee ID (who comlpeted the sale)
+              <select  name="empID" id="eEmpID">
+                {{#if emps}}
+                  {{#each emps}}
+                    <option value={{id}}>{{id}}: {{fName}} {{lName}}</option>
+                  {{/each}}
+                {{/if}}
+              </select>
+            </label>
+            <strong>this is a dynamically populated list of employees in the database.</strong><br><br>
+            <label>Customer ID:
+              <select  name="custID" id="sCustomerID">
+                {{#if custs}}
+                  {{#each custs}}
+                    <option value={{id}}>{{id}}: {{fName}} {{lName}}</option>
+                  {{/each}}
+                {{/if}}
+              </select>
+            </label>
+            <strong>this is a dynamically populated list of customers in the database.</strong><br><br>
+            <label>Transaction Date:
+              <input type ="date" name ="transactionDate">
+            </label><br><br>
+            <label>Purchase Total (including tax):
+              <input type ="price" name ="totalPurchase">
+            </label><br><br>
+            <!--<label>Number of distinct products:
+              <input type ="number" name ="SnumProds" id="numProds" value="1">
+            </label><br><br> -->
+            <input name ="salClick" id="salClick" value="Submit" type="Submit"/>
+                <div id="salTy"></div>
+        </fieldset>
     </form>
     </div>
     <footer>© Tropical Fish Emporium</footer>

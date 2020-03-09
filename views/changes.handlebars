@@ -6,6 +6,28 @@
 
       <div style="padding-left:16px">
         <h2>Tropical Fish Emporium</h2>
+
+        <h3>Step 5 to Step 6 Draft</h3>
+        <p>These changes were made based on feedback from peer review during step 5 and updates to the site to include UPDATE and DELETE functionalities.
+        </p>
+        <ul>
+            <li>UPDATE and DELETE:</li>
+            <ul>
+              <li>UPDATEs to the employee table are now implemented. When viewing employees from the "Employee" page, an individual employee may be
+                selected by clicking the Update button.</li>
+              <ul><li>A new page is rendered, a GET is performed to populate the form fields</li>
+              <li>These forms are editable and changes can be made to the database by clicking on the "Update Employee" button.</li></ul>
+            
+              <li>DELETE is now functional on the `customers` page.
+                </li>
+              <ul><li>Clicking the delete button next to a customer will remove it from the database.</li>
+              <li>The corresponding foreign key in sales for customer ID is 'nulled' when this happens</li></ul>
+            </ul>
+            <li>The Manager page now has two dynamically populated drop down lists.</li>
+              <ul><li>Under the Sales section on the Manager page, all employees and customers in the database now appear in drop down lists, making it easy to add a sale and maintain valid foreign keys.</li></ul>
+            <li>A modification to the DDL file was made to ALTER the sales table to allow its customerID field to become NULL if the corresponding custmer is deleted from the database.</li>
+            <li>For the sake of simplification, we have decided to only allow DELETEs from the `customers` table and UPDATEs from the `employees` table.</li>
+        </ul>
         <h3>Step 4 to Step 5 Draft</h3>
         <p>These changes were made based on feedback from peer review during step 4 and updates to the site to include a backend that handles INSERTs and SELECTS.
         </p>

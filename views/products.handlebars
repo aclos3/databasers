@@ -1,7 +1,7 @@
 
 <div style="padding-left:16px">
   <h2>Tropical Fish Emporium</h2>
-    <p>Search for and delete products from the database.</p>
+    <p>Search for products from the database.</p>
 
   <form method ="GET" action ="/products">
     <fieldset>
@@ -24,14 +24,14 @@
     <h3>Products:</h3>
     <table>
       <tr>
-        <th>select</th>
+        <!--<th>select</th> -->
         <th class="pk">productID</th>
         <th>name</th>
         <th>price</th>
       </tr>
       {{#each prod}}
       <tr>
-        <td><input type="checkbox" name="prodCheck{{id}}"></td>
+        <!--<td><input type="checkbox" name="prodCheck{{id}}"></td> -->
         <td>{{id}}</td>
         <td>{{pName}}</td>
         <td>{{price}}</td>
@@ -39,6 +39,8 @@
       {{/each}}
     </table>
   </div>
+  {{else}}
+      <div class="warnText">No Products Returned<br><br></div>
   {{/if}}
   <br><br>
 
@@ -47,14 +49,14 @@
    <h3>sales_products:</h3>
     <table>
       <tr>
-        <th>select</th>
+       <!-- <th>select</th> -->
         <th class="fk">saleID</th>
         <th class="fk">productID</th>
         <th> quantity</th>
       </tr>
       {{#each sal_prod}}
       <tr>
-        <td><input type="checkbox" name="sal_prodCheck{{sid}}{{pid}}"></td>
+        <!--<td><input type="checkbox" name="sal_prodCheck{{sid}}{{pid}}"></td> -->
         <td>{{sid}}</td>
         <td>{{pid}}</td>
         <td>{{qty}}</td>
@@ -62,6 +64,8 @@
     {{/each}}
     </table>
   </div>
+  {{else}}
+      <div class="warnText">No sales_products Returned<br><br></div>
   {{/if}}
 </div>
 <footer>© Tropical Fish Emporium</footer>

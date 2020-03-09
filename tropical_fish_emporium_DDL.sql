@@ -46,7 +46,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS customers;
 CREATE TABLE customers (
   customerID int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  email varchar(255) UNIQUE,
+  email varchar(255),
   memberSince date NOT NULL,
   firstName varchar(255),
   lastName varchar(255),
@@ -71,7 +71,7 @@ CREATE TABLE sales (
   transactionDate date NOT NULL,
   totalPurchase decimal(16,2) NOT NULL,
   FOREIGN KEY (eID) REFERENCES employees (employeeID),
-  FOREIGN KEY (cID) REFERENCES customers (customerID)
+  FOREIGN KEY (cID) REFERENCES customers (customerID) ON DELETE SET NULL
 ) ENGINE = INNODB;
 ALTER TABLE sales AUTO_INCREMENT=4000;
 

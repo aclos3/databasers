@@ -1,0 +1,46 @@
+<div style="padding-left:16px">
+  <h2>Tropical Fish Emporium</h2>
+  <p>Update an Employee Here.</p>
+    <form method = "post">
+        {{#if emps}}
+            {{#each emps}}
+        
+                <fieldset>
+                    <legend>Update Selected Employee Details:</legend>
+                    <label hidden>Employee ID:
+                        <input type ="text" name ="id" value="{{id}}">
+                    </label>
+                    <label>First Name:
+                        <input type ="text" name ="firstName" value="{{fName}}">
+                    </label><br><br>
+                    <label>Last Name:
+                        <input type ="text" name ="lastName" value="{{lName}}">
+                    </label><br><br>
+                    <label>Store ID:
+                        <input type ="text" name ="storeID" value="{{store}}">
+                    </label><br><br>
+                    <label>Title:
+                        <input type ="text" name ="title" value="{{title}}">
+                    </label><br><br>
+                    <label>Shift Start-Time:
+                        <input type ="time" name ="startTime" value="{{sTime}}">
+                    </label><br><br>
+                    <label>Shift End-Time:
+                        <input type ="time" name ="endTime" value="{{stTime}}">
+                    </label><br><br>
+                    <label>Hourly Rate:
+                        <input type ="number" name ="hourlyRate" value="{{rate}}">
+                    </label><br><br>
+                    <label>Part-Time? </label>
+                        <select name = "partTime"  value="{{pTime}}">
+                        <option value = "1" selected> Yes</option>
+                        <option value = "0" selected> No</option>
+                        </select><br><br>
+                    
+                    <p><input type="Submit" name="empUpdate" id="empUpdate" value="Update Employee"></p>
+                </fieldset>
+            {{/each}}
+        {{/if}}
+   </form>
+</div>
+<footer>© Tropical Fish Emporium</footer>
