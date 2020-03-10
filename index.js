@@ -9,7 +9,7 @@ var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var Handlebars = require('handlebars');
 var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
-var port = 3144;
+var port = 3145;
 var bClicked = "";
 var updating = "";
 
@@ -130,6 +130,7 @@ app.get('/customerDelete', function(req, res, next) {
             next(err);
             return;
         }
+        //res.redirect('/customers');
     });
 });
 
