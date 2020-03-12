@@ -74,6 +74,9 @@ app.post('/searchCust', function (req, res) {
 app.post('/updateEmp', function (req, res) {
     bClicked = "upEmp";
 });
+app.post('/assignSalProd', function (req, res) {
+    bClicked = "salProd";
+});
 
 //render the home page.
 app.get('/', function(req, res, next){
