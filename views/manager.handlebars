@@ -115,7 +115,7 @@
                 <select  name="saleID" id="sSaleID">
                   {{#if sal}}
                   {{#each sal}}
-                    <option value={{id}}>{{id}}: {{eID}} {{cID}} {{tDate}} {{tPurch}}</option>
+                    <option value={{id}}>{{id}}: {{eID}} {{sID}} {{tDate}} {{tPurch}}</option>
                       {{/each}}
                       {{/if}}
                 </select>
@@ -124,7 +124,7 @@
               <label>Product Purchased:
                 <select  name="prodID" id="pProdID">
                   {{#if prod}}
-                  {{#each custs}}
+                  {{#each prod}}
                     <option value={{id}}>{{id}}: {{pName}} {{price}}</option>
                       {{/each}}
                       {{/if}}

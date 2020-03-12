@@ -214,7 +214,7 @@ app.get('/upEmp', function(req, res, next) {
 // Update the employee info in the database
 app.post('/upEmp', (req, res, next) => {
     var sqlQuery = `UPDATE employees SET firstName = '${req.body.firstName}', lastName = '${req.body.lastName}', storeID = '${req.body.storeID}', title = '${req.body.title}', startTime = '${req.body.startTime}', stopTime = '${req.body.endTime}', hourlyRate = '${req.body.hourlyRate}', partTime = '${req.body.partTime}' WHERE employeeID = '${req.body.id}'`;
-    
+
     if(req.body.id) {
         mysql.pool.query(sqlQuery, function(err, rows, fields) {
             if(err) {
@@ -222,7 +222,7 @@ app.post('/upEmp', (req, res, next) => {
             return;
         }
         res.redirect('/employees');
-        }); 
+        });
     }
 
 });
@@ -363,7 +363,7 @@ app.get('/products', (req, res, next) => {
     });
 });
 
-//MANAGER 
+//MANAGER
 //render manager page
 app.get('/manager', function(req, res, next){
     var context = { title: 'manager' ,path:"manager", };
@@ -395,7 +395,7 @@ app.get('/manager', function(req, res, next){
     });
 });
 
-//INSERT new customer, employee, sale or product
+//INSERT new customer, employee, sale, product, or sales_product
 app.post('/manager', (req, res, next) => {
 
     if(bClicked === "cust"){
@@ -435,6 +435,17 @@ app.post('/manager', (req, res, next) => {
     if (bClicked === "prod") {
         var parametersP = [req.body.pName, req.body.price];
         var queryResultsP = "INSERT INTO products (name, price) VALUES (?,?)";
+        mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
+          if(err) {
+            next(err);
+            return;
+          }
+          res.redirect('/manager');
+        });
+    }
+    if (bClicked === "prod") {
+        var parametersP = [req.body.pName, req.body.price];
+        var queryResultsP = "INSERT INTO sales_products (name, price) VALUES (?)";
         mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
           if(err) {
             next(err);
