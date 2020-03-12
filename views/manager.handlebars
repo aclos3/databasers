@@ -83,7 +83,7 @@
                 {{/if}}
               </select>
             </label>
-            <strong>this is a dynamically populated list of employees in the database.</strong><br><br>
+            <strong>This is a dynamically populated list of Employees in the database.</strong><br><br>
             <label>Customer ID:
               <select  name="custID" id="sCustomerID">
                 {{#if custs}}
@@ -93,7 +93,7 @@
                 {{/if}}
               </select>
             </label>
-            <strong>this is a dynamically populated list of customers in the database.</strong><br><br>
+            <strong>This is a dynamically populated list of Customers in the database.</strong><br><br>
             <label>Transaction Date:
               <input type ="date" name ="transactionDate">
             </label><br><br>
@@ -106,7 +106,37 @@
             <input name ="salClick" id="salClick" value="Submit" type="Submit"/>
                 <div id="salTy"></div>
         </fieldset>
+
+  <!--SALES_PRODUCTS-->
+        <fieldset>
+          <legend>Add Distinct Quantity of Products Sold in a Given Sale:</legend>
+            <p>Input the <strong>number/quantity</strong> of products sold in the corresponding sale.</p>
+              <label>Sale ID (What sale is being refrenced?)
+                <select  name="saleID" id="sSaleID">
+                  {{#if sal}}
+                  {{#each sal}}
+                    <option value={{id}}>{{id}}: {{eID}} {{cID}} {{tDate}} {{tPurch}}</option>
+                      {{/each}}
+                      {{/if}}
+                </select>
+              </label>
+              <strong>This is a dynamically populated list of Sales in the database.</strong><br><br>
+              <label>Product Purchased:
+                <select  name="prodID" id="pProdID">
+                  {{#if prod}}
+                  {{#each custs}}
+                    <option value={{id}}>{{id}}: {{pName}} {{price}}</option>
+                      {{/each}}
+                      {{/if}}
+                </select>
+              </label>
+                <strong>This is a dynamically populated list of Products in the database.</strong><br><br>
+                <label>Quantity of Product(s) Purchased in Selected Sale:
+                  <input type ="number" name ="distinctQuantityPurchased">
+                </label><br><br>
+                <input name ="salProdClick" id="salProdClick" value="Submit" type="Submit"/>
+                  <div id="salTyProdTy"></div>
+              </fieldset>
     </form>
     </div>
     <footer>© Tropical Fish Emporium</footer>
-
