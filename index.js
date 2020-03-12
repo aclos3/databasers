@@ -398,6 +398,22 @@ app.get('/manager', function(req, res, next){
     });
 });
 
+// Update the sales_products table number in the database
+app.post('/salProd', (req, res, next) => {
+    var sqlQuery = `UPDATE sales_products SET n = '${req.body.number}', lastName = '${req.body.lastName}',  WHERE employeeID = '${req.body.id}'`;
+
+    if(req.body.id) {
+        mysql.pool.query(sqlQuery, function(err, rows, fields) {
+            if(err) {
+            next(err);
+            return;
+        }
+        res.redirect('/employees');
+        });
+    }
+
+});
+
 //INSERT new customer, employee, sale, product, or sales_product
 app.post('/manager', (req, res, next) => {
 
@@ -446,9 +462,9 @@ app.post('/manager', (req, res, next) => {
           res.redirect('/manager');
         });
     }
-    if (bClicked === "prod") {
-        var parametersP = [req.body.pName, req.body.price];
-        var queryResultsP = "INSERT INTO sales_products (name, price) VALUES (?)";
+    if (bClicked === "salProd") {
+        var parametersSP = [req.body.sid, req.body.pid, req.body.number];
+        var queryResultsSP = "INSERT INTO sales_products (sID, pID, number) VALUES (?,?,?)";
         mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
           if(err) {
             next(err);
