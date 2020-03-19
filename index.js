@@ -1,5 +1,5 @@
 //  Author:  Andrew Clos & Haley Whoehrle
-//  Date:  3/9/2020
+//  Date:  3/19/2020
 //  Title: Determined Databasers - Tropical Fish Emporium.
 //  Description: This is the server side file for the Tropical Fish Emporium
 
@@ -9,7 +9,7 @@ var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var Handlebars = require('handlebars');
 var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
-var port = 3145;
+var port = 3144;
 var bClicked = "";
 var updating = "";
 
@@ -65,6 +65,9 @@ app.post('/assignProd', function (req, res) {
 app.post('/assignSale', function (req, res) {
     bClicked = "sal";
 });
+app.post('/assignSp', function (req, res) {
+    bClicked = "sp";
+});
 app.post('/deleteCust', function (req, res) {
     bClicked = "delCust";
 });
@@ -73,9 +76,6 @@ app.post('/searchCust', function (req, res) {
 });
 app.post('/updateEmp', function (req, res) {
     bClicked = "upEmp";
-});
-app.post('/assignSalProd', function (req, res) {
-    bClicked = "salProd";
 });
 
 //render the home page.
@@ -133,7 +133,6 @@ app.get('/customerDelete', function(req, res, next) {
             next(err);
             return;
         }
-        //res.redirect('/customers');
     });
 });
 
@@ -217,7 +216,7 @@ app.get('/upEmp', function(req, res, next) {
 // Update the employee info in the database
 app.post('/upEmp', (req, res, next) => {
     var sqlQuery = `UPDATE employees SET firstName = '${req.body.firstName}', lastName = '${req.body.lastName}', storeID = '${req.body.storeID}', title = '${req.body.title}', startTime = '${req.body.startTime}', stopTime = '${req.body.endTime}', hourlyRate = '${req.body.hourlyRate}', partTime = '${req.body.partTime}' WHERE employeeID = '${req.body.id}'`;
-
+    
     if(req.body.id) {
         mysql.pool.query(sqlQuery, function(err, rows, fields) {
             if(err) {
@@ -225,7 +224,7 @@ app.post('/upEmp', (req, res, next) => {
             return;
         }
         res.redirect('/employees');
-        });
+        }); 
     }
 
 });
@@ -366,13 +365,17 @@ app.get('/products', (req, res, next) => {
     });
 });
 
-//MANAGER
+//MANAGER 
 //render manager page
 app.get('/manager', function(req, res, next){
     var context = { title: 'manager' ,path:"manager", };
+    //there are four dynamically populated drop down lists in the manager page and these are their queries
     var sqlQuery = `SELECT * FROM customers ORDER BY customerID ASC`;
     var sqlQuery2 = `SELECT * FROM employees ORDER BY employeeID ASC`;
+    var sqlQuery3 = `SELECT * FROM sales ORDER BY saleID ASC`;
+    var sqlQuery4 = `SELECT * FROM products ORDER BY productID ASC`;
 
+    //Under Sales, create the dynamically populated drop down for the customer.
     mysql.pool.query(sqlQuery, function (err, rows, fields) {
         if(err) {
             next(err);
@@ -382,41 +385,53 @@ app.get('/manager', function(req, res, next){
         for(var i in rows){
             allCust2.push({"id": rows[i].customerID, "fName": rows[i].firstName, "lName": rows[i].lastName});
         }
-        mysql.pool.query(sqlQuery2, function (err, rows2, fields) {
-            if(err) {
-                next(err);
-                return;
-            }
-            var allEmp2 = [];
-            for(var j in rows2){
-            allEmp2.push({"id": rows2[j].employeeID, "fName": rows2[j].firstName, "lName": rows2[j].lastName});
-            }
-            context.emps = allEmp2;
-            context.custs = allCust2;
-            res.render('manager', context);
-        });
+        context.custs = allCust2;
+    });
+    //Under Sales, create the dynamically populated drop down for the Employee.
+    mysql.pool.query(sqlQuery2, function (err2, rows2, fields) {
+        if(err2) {
+            next(err2);
+            return;
+        }
+        var allEmp2 = [];
+        for(var j in rows2){
+        allEmp2.push({"id": rows2[j].employeeID, "fName": rows2[j].firstName, "lName": rows2[j].lastName});
+        }
+        context.emps = allEmp2; 
+        
+    });
+    //Under sales_products, create the dynamically populated drop down for the saleID.
+    mysql.pool.query(sqlQuery3, function (err3, rows3, fields) {
+        if(err3) {
+            next(err3);
+            return;
+        }
+        var allSales = [];
+        for(var k in rows3){
+            allSales.push({"id": rows3[k].saleID, "tDate": rows3[k].transactionDate});
+        }
+        context.spSal = allSales; 
+    });
+    //Under sales_products, create the dynamically populated drop down for the productID.
+    mysql.pool.query(sqlQuery4, function (err4, rows4, fields) {
+        if(err4) {
+            next(err4);
+            return;
+        }
+        var allProds = [];
+        for(var l in rows4){
+            allProds.push({"id": rows4[l].productID, "pName": rows4[l].name});
+        }
+        context.spProd = allProds; 
+        res.render('manager', context);
     });
 });
 
-// Update the sales_products table number in the database
-app.post('/salProd', (req, res, next) => {
-    var sqlQuery = `UPDATE sales_products SET n = '${req.body.number}', lastName = '${req.body.lastName}',  WHERE employeeID = '${req.body.id}'`;
-
-    if(req.body.id) {
-        mysql.pool.query(sqlQuery, function(err, rows, fields) {
-            if(err) {
-            next(err);
-            return;
-        }
-        res.redirect('/employees');
-        });
-    }
-
-});
-
-//INSERT new customer, employee, sale, product, or sales_product
+//INSERT new customer, employee, sale or product
 app.post('/manager', (req, res, next) => {
 
+    //the if statements here help the backend determine which section we're working with since
+    //there is more than one submit button on this page. Helper functions and jQuery in script.js assists with this process.
     if(bClicked === "cust"){
         var parametersC = [req.body.email, req.body.memberSince, req.body.custFirstName, req.body.custLastName];
         var queryResultsC = "INSERT INTO customers (email, memberSince, firstName, lastName) VALUES (?,?,?,?)";
@@ -462,10 +477,10 @@ app.post('/manager', (req, res, next) => {
           res.redirect('/manager');
         });
     }
-    if (bClicked === "salProd") {
-        var parametersSP = [req.body.sid, req.body.pid, req.body.number];
+    if (bClicked === "sp") {
+        var parametersSP = [req.body.salID, req.body.prodID, req.body.quantity];
         var queryResultsSP = "INSERT INTO sales_products (sID, pID, number) VALUES (?,?,?)";
-        mysql.pool.query(queryResultsP, parametersP, function(err, rows, fields) {
+        mysql.pool.query(queryResultsSP, parametersSP, function(err, rows, fields) {
           if(err) {
             next(err);
             return;

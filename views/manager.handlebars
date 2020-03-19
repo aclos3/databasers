@@ -57,8 +57,6 @@
   <!--PRODUCTS-->
         <fieldset>
           <legend>Add Product Here:</legend>
-            <p>Adding a product will add a product record to the database, and will also add a row to the intersection table
-            "products_sales." The primary key of the product record will be a <strong>foreign key</strong> in the product_sales table.</p>
             <label>Product Name:
               <input type ="text" name ="pName">
             </label><br><br>
@@ -72,8 +70,6 @@
   <!--SALES-->
         <fieldset>
           <legend>Add Sale Here:</legend>
-            <p>Adding a sale will add a sale record to the database, and will also add a row to the intersection table
-              "products_sales." The primary key of the sale record will be a <strong>foreign key</strong> in the product_sales table.</p>
             <label>Employee ID (who comlpeted the sale)
               <select  name="empID" id="eEmpID">
                 {{#if emps}}
@@ -83,7 +79,7 @@
                 {{/if}}
               </select>
             </label>
-            <strong>This is a dynamically populated list of Employees in the database.</strong><br><br>
+            <strong>this is a dynamically populated list of employees in the database.</strong><br><br>
             <label>Customer ID:
               <select  name="custID" id="sCustomerID">
                 {{#if custs}}
@@ -93,50 +89,46 @@
                 {{/if}}
               </select>
             </label>
-            <strong>This is a dynamically populated list of Customers in the database.</strong><br><br>
+            <strong>this is a dynamically populated list of customers in the database.</strong><br><br>
             <label>Transaction Date:
               <input type ="date" name ="transactionDate">
             </label><br><br>
             <label>Purchase Total (including tax):
               <input type ="price" name ="totalPurchase">
             </label><br><br>
-            <!--<label>Number of distinct products:
-              <input type ="number" name ="SnumProds" id="numProds" value="1">
-            </label><br><br> -->
-            <input name ="salClick" id="salClick" value="Submit" type="Submit"/>
-                <div id="salTy"></div>
+            <input name ="salClick" id="salClick" value="Submit" type="submit"></input> 
         </fieldset>
 
-  <!--SALES_PRODUCTS-->
+<!--SALES_PRODUCTS-->
         <fieldset>
-          <legend>Add Distinct Quantity of Products Sold in a Given Sale:</legend>
-            <p>Input the <strong>number/quantity</strong> of products sold in the corresponding sale.</p>
-              <label>Sale ID (What sale is being refrenced?)
-                <select  name="saleID" id="sSaleID">
-                  {{#if sal}}
-                  {{#each sal}}
-                    <option value={{id}}>{{id}}: {{eID}} {{sID}} {{tDate}} {{tPurch}}</option>
-                      {{/each}}
-                      {{/if}}
-                </select>
-              </label>
-              <strong>This is a dynamically populated list of Sales in the database.</strong><br><br>
-              <label>Product Purchased:
-                <select  name="prodID" id="pProdID">
-                  {{#if prod}}
-                  {{#each prod}}
-                    <option value={{id}}>{{id}}: {{name}} {{price}}</option>
-                      {{/each}}
-                      {{/if}}
-                </select>
-              </label>
-                <strong>This is a dynamically populated list of Products in the database.</strong><br><br>
-                <label>Quantity of Product(s) Purchased in Selected Sale:
-                  <input type ="number" name ="distinctQuantityPurchased">
-                </label><br><br>
-                <input name ="salProdClick" id="salProdClick" value="Submit" type="Submit"/>
-                  <div id="salTyProdTy"></div>
-              </fieldset>
+          <legend>Add sales_product Here:</legend>
+            <label>Sale ID
+              <select  name="salID" id="spSalID">
+                {{#if spSal}}
+                  {{#each spSal}}
+                    <option value={{id}}>{{id}}: {{tDate}}</option>
+                  {{/each}}
+                {{/if}}
+              </select>
+            </label>
+            <strong>this is a dynamically populated list of sales from the database.</strong><br><br>
+            <label>Product ID:
+              <select  name="prodID" id="spProdID">
+                {{#if spProd}}
+                  {{#each spProd}}
+                    <option value={{id}}>{{id}}: {{pName}}</option>
+                  {{/each}}
+                {{/if}}
+              </select>
+            </label>
+            <strong>this is a dynamically populated list of products from the database.</strong><br><br>
+            <label>Quantity
+              <input type ="quantity" name ="quantity">
+            </label><br><br>
+            <input name ="spClick" id="spClick" value="Submit" type="Submit"/>
+              <div id="spTy"></div>
+        </fieldset>
     </form>
     </div>
     <footer>© Tropical Fish Emporium</footer>
+
